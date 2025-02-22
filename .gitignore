@@ -1,4 +1,5 @@
 assets/data/*
+assets/maps/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
