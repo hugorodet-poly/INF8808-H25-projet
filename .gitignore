@@ -171,3 +171,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore downloaded HTML reports
+borough_reports/
+
+# Ignore extracted CSV files
+immigration_extracted_csvs/
