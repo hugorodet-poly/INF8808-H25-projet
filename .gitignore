@@ -1,5 +1,9 @@
 assets/data/*
 assets/maps/*
+.html
+.csv
+borough_reports
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
