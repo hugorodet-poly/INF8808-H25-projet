@@ -13,6 +13,13 @@ Datasets stockés dans `assets/data`
 
 - `langues.csv` et `langues_metadata.csv` : _Langues utilisées au travail selon les statistiques du revenu d’emploi, le statut d’immigrant et le plus haut certificat, diplôme ou grade : Canada, provinces et territoires, régions métropolitaines de recensement et agglomérations de recensement y compris les parties._ Les fichiers ont été renommés. Disponible ici : https://www150.statcan.gc.ca/t1/tbl1/fr/tv.action?pid=9810053001
 
+## Cartes
+
+Cartes stockées dans `assets/maps`
+- `districts_montreal.geojson` : Les districts électoraux uniquement de la Ville de Montréal (donc il y a des trous)
+- `districts_QC.geojson` : Les districts électoraux pour tout le québec
+- `arrondissements_montreal.geojson` : les frontières des arrondissements, différentes de celles des districts électoraux.
+
 ## Exécution des Scripts
 
 ### Téléchargement des données socio-économiques
