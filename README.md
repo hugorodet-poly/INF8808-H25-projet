@@ -12,7 +12,9 @@ pip install -r requirements.txt
 Datasets stockés dans `assets/data`
 
 - `donneesSocio2021.csv` : Données démographiques des circonscriptions
-- `immigration_extracted_csvs` : Répertoire des tableaux démographiques par arrondissement
+- `arrondissements.csv` : Les données sur les arrondissements, dans un seul tableau.
+- `resultats-bureau-vote` : Le vote par circonscription, données prises ici : https://www.electionsquebec.qc.ca/resultats-et-statistiques/resultats-generales/2022-10-03/338/
+- `immigration_extracted_csvs` : Répertoire des tableaux démographiques par arrondissement. Plus utilisé.
 - [à ignorer pour le moment] `langues.csv` et `langues_metadata.csv` : _Langues utilisées au travail selon les statistiques du revenu d’emploi, le statut d’immigrant et le plus haut certificat, diplôme ou grade : Canada, provinces et territoires, régions métropolitaines de recensement et agglomérations de recensement y compris les parties._ Les fichiers ont été renommés. Disponible ici : https://www150.statcan.gc.ca/t1/tbl1/fr/tv.action?pid=9810053001
 
 ## Cartes
