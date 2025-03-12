@@ -43,17 +43,17 @@ circo_groups = {
         'Vanier-Les Rivieres'], 
 }
 
-def get_map(districts, demographics, variable, opacity=0.5, zoom='quebec'):
+def get_map(map_data, demographics, variable, opacity=0.5, zoom='quebec'):
     z = demographics[variable].values
     if demographics[variable].dtype == 'object':
         z = [float(s[:-1].replace(',', '.')) for s in z]
     
     fig = go.Figure(go.Choroplethmap(
-        geojson=districts,
+        geojson=map_data,
         featureidkey='properties.ID',
-        locations=[f['properties']['ID'] for f in districts['features']],
+        locations=[f['properties']['ID'] for f in map_data['features']],
         z=z,
-        hovertext=[f['properties']['NM_CEP'] for f in districts['features']],
+        hovertext=[f['properties']['NM_CEP'] for f in map_data['features']],
         marker_opacity=opacity, marker_line_width=0))
     fig.update_geos(
         projection=dict(
