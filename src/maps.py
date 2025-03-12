@@ -1,5 +1,48 @@
 import plotly.graph_objects as go
 
+circo_groups = {
+    'Montréal': [
+        'Acadie',
+        'Anjou-Louis-Riel',
+        'Bourassa-Sauve',
+        'Camille-Laurin',
+        'D\'Arcy-McGee',
+        'Gouin',
+        'Hochelaga-Maisonneuve',
+        'Jacques-Cartier',
+        'Jeanne-Mance-Viger',
+        'LaFontaine',
+        'Laurier-Dorion',
+        'Marguerite-Bourgeoys',
+        'Marquette',
+        'Maurice-Richard',
+        'Mercier',
+        'Mont-Royal-Outremont',
+        'Nelligan',
+        'Notre-Dame-de-Grace',
+        'Pointe-aux-Trembles',
+        'Robert-Baldwin',
+        'Rosemont',
+        'Saint-Henri-Sainte-Anne',
+        'Saint-Laurent',
+        'Sainte-Marie-Saint-Jacques',
+        'Verdun',
+        'Viau',
+        'Westmount-Saint-Louis'],
+    'Québec': [
+        'Charlesbourg',
+        'Charlevoix-Cote-de-Beaupre',
+        'Chauveau',
+        'Jean-Lesage',
+        'Jean-Talon',
+        'La Peltrie',
+        'Louis-Hebert',
+        'Montmorency',
+        'Portneuf',
+        'Taschereau',
+        'Vanier-Les Rivieres'], 
+}
+
 def get_map(districts, demographics, variable, opacity=0.5, zoom='quebec'):
     z = demographics[variable].values
     if demographics[variable].dtype == 'object':
