@@ -46,3 +46,25 @@ def get_map_data(path='../assets/maps/districts_QC.geojson'):
         districts['features'][i]['properties']['ID'] = i
         
     return districts
+
+def get_elections_data(path='../assets/data/resultats.csv'):
+    """
+    Load the elections data from the CSV file and clean it.
+    Group by district for easy plotting on a map.
+    """
+    
+    df = pd.read_csv(path, sep=',')
+    
+    # Clean
+    df['nomCirconscription'] = df['nomCirconscription'].map(lambda s: unidecode(s))   
+    
+    return df 
+
+def group_elections_data(df, by='circo'):
+    """
+    Group the elections data by circonscription or by party.
+    """
+    
+    df_grouped = df.groupby('nomCirconscription').agg({'nomParti': 'first', 'pourcentageVotes': 'first'}).reset_index()
+    
+    return df_grouped
