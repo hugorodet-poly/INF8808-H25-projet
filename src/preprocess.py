@@ -75,15 +75,23 @@ def vote_summary_by_circo(df):
     def reduction_fn(x):
         out = []
         for col in x.columns:
-            if col.startswith('nb'):
-                out.append(x[col].sum())
-            elif col.startswith('taux'):
+            if col.startswith('taux') or col in ['nbBureauTotal', 'nbVoteValide', 'nbVoteRejete', 'nbVoteExerce', 'nbElecteurInscrit' ]:
                 out.append(x[col].mean())
+            elif col in ['nbVoteTotal', 'nbVoteAvance']:
+                out.append(x[col].sum())
             else:
                 raise ValueError(f'Unknown column type : {col}. Only processing columns starting with "taux" or "nb"')
         return pd.DataFrame(data=[out], columns=x.columns)
 
-    df_dropped = df.drop(columns=['numeroCirconscription', 'numeroCandidat', 'nomCandidat', 'prenomCandidat', 'abreviationPartiPolitique', 'numeroPartiPolitique'])
-    df_grouped = df_dropped.groupby('nomCirconscription').apply(reduction_fn, include_groups=False).reset_index(drop=True)
+    df_dropped = df.drop(columns=[
+        'numeroCirconscription', 
+        'numeroCandidat', 
+        'nomCandidat', 
+        'prenomCandidat', 
+        'abreviationPartiPolitique', 
+        'numeroPartiPolitique', 
+        'nbBureauComplete'])
+    df_grouped = df_dropped.groupby('nomCirconscription').apply(reduction_fn, include_groups=False).reset_index()
+    df_grouped = df_grouped.sort_values(by='nomCirconscription', key=lambda x: x.str.lower()).reset_index(drop=True)
 
     return df_grouped
