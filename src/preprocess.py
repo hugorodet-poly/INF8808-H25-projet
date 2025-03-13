@@ -68,3 +68,28 @@ def group_elections_data(df, by='circo'):
     df_grouped = df.groupby('nomCirconscription').agg({'nomParti': 'first', 'pourcentageVotes': 'first'}).reset_index()
     
     return df_grouped
+
+# def group_elections_data_sid(df, specific_party='first'):
+#     """
+#     Group the elections data by circonscription or by party.
+#     """
+#     df_grouped = df.groupby('nomCirconscription').agg({'abreviationPartiPolitique': specific_party, 'tauxVote': 'first'}).reset_index()
+
+#     return df_grouped
+
+def group_elections_data_sid(df, circonscription=None, party='Q.S.'):
+    """
+    return the vote rate of a specific party in a specific circonscription
+    """
+    
+    # Filtrer le DataFrame pour ne garder que les votes du parti choisi
+    df_filtered = df[df['abreviationPartiPolitique'] == party]
+    
+    # Grouper par circonscription et récupérer le taux de vote
+    df_grouped = df_filtered.groupby('nomCirconscription', as_index=False)['tauxVote'].sum()
+
+    # Si une circonscription spécifique est demandée, on la filtre
+    if circonscription:
+        df_grouped = df_grouped[df_grouped['nomCirconscription'] == circonscription]
+
+    return df_grouped
