@@ -47,8 +47,7 @@ circo_groups = {
 
 def get_map(
     map_data: dict, 
-    demographics: pd.DataFrame, 
-    variable: str, 
+    color: list=None,
     opacity: float=0.5, 
     zoom: str='quebec'):
     """
@@ -56,23 +55,19 @@ def get_map(
     
     Args:
         map_data (dict): GeoJSON data for Quebec or Montreal.
-        demographics (DataFrame): Dataframe containing the variable for the color.
-        variable (str): Name of the variable to display.
+        color (list): List of values to color the map.
         opacity (float): Opacity of the map markers (0 to 1).
         zoom (str): 'quebec' or 'montreal'.
         
     Returns:
         go.Figure: Choropleth map to plot.
     """
-    z = demographics[variable].values
-    if demographics[variable].dtype == 'object':
-        z = [float(s[:-1].replace(',', '.')) for s in z]
     
     fig = go.Figure(go.Choroplethmap(
         geojson=map_data,
         featureidkey='properties.ID',
         locations=[f['properties']['ID'] for f in map_data['features']],
-        z=z,
+        z=color,
         hovertext=[f['properties']['NM_CEP'] for f in map_data['features']],
         marker_opacity=opacity, marker_line_width=0))
     fig.update_geos(

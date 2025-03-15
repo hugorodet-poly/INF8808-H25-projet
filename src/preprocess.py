@@ -24,6 +24,11 @@ def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     df_dem.sort_values(by='Circonscription', inplace=True, key=lambda x: x.str.lower())
     df_dem = df_dem.reset_index(drop=True)  
     
+    # Convert the percentages from str to float
+    for i in range(len(df_dem.columns)):
+        if df_dem.dtypes.iloc[i] == 'object' and df_dem.columns[i] not in ['Circonscription']:
+            df_dem.iloc[:,i] = df_dem.iloc[:,i].str[:-1].map(lambda s: float(s.replace(',', '.').replace(' ', '')) if s else 0)
+    
     return df_dem
     
 def get_immigration_data(path:str='../assets/data/arrondissements.csv'):
