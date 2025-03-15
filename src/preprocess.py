@@ -77,7 +77,7 @@ def group_elections_data(df, by='circo'):
 
 #     return df_grouped
 
-def group_elections_data_sid(df, circonscription=None, party='Q.S.'):
+def group_elections_data_as_party(df, circonscription=None, party='Q.S.'):
     """
     return the vote rate of a specific party in a specific circonscription
     """
@@ -92,4 +92,13 @@ def group_elections_data_sid(df, circonscription=None, party='Q.S.'):
     if circonscription:
         df_grouped = df_grouped[df_grouped['nomCirconscription'] == circonscription]
 
+    return df_grouped
+
+def get_participation_per_district(df):
+    """
+    Group the elections data by circonscription to get the participation rate.
+    """
+    
+    df_grouped = df.groupby('nomCirconscription').agg({'tauxParticipation': 'first'}).reset_index()
+    
     return df_grouped
