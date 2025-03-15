@@ -33,7 +33,7 @@ def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     
 def get_immigration_data(path:str='../assets/data/arrondissements.csv'):
     """
-    Load the immigration data PER NEIGHBORHOOD
+    Load the immigration data PER NEIGHBORHOOD (not the same as electoral disctricts)
     """
     df_imm = pd.read_csv(path, sep=',')
     
@@ -42,26 +42,6 @@ def get_immigration_data(path:str='../assets/data/arrondissements.csv'):
     df_imm['Arrondissement'] = df_imm['Arrondissement'].map(lambda s: s.strip())
     
     return df_imm    
-    
-def get_map_data(path:str='../assets/maps/districts_QC.geojson'):
-    """
-    Load the map data from the GeoJSON file and clean it.
-    """
-    
-    with open(path) as f:
-        map_data = json.load(f)
-
-    # Clean the names
-    for i in range(len(map_data['features'])):
-        map_data['features'][i]['properties']['NM_CEP'] = unidecode(map_data['features'][i]['properties']['NM_CEP'])
-    # Roughly sort. NOT RELIABLE for 1-to-1 matching
-    map_data['features'].sort(key=lambda x: x['properties']['NM_CEP'].lower())
-    
-    # Add unique IDs to use as primary key (and also row order)
-    for i in range(len(map_data['features'])):
-        map_data['features'][i]['properties']['ID'] = i
-        
-    return map_data
 
 def get_elections_data(path:str='../assets/data/resultats.csv'):
     """
@@ -114,3 +94,40 @@ def vote_summary_by_circo(df:pd.DataFrame):
     df_grouped = df_grouped.sort_values(by='nomCirconscription', key=lambda x: x.str.lower()).reset_index(drop=True)
 
     return df_grouped
+
+def get_map_data(path:str='../assets/maps/districts_QC.geojson'):
+    """
+    Load the map data from the GeoJSON file and clean it.
+    """
+    
+    with open(path) as f:
+        map_data = json.load(f)
+
+    # Clean the names
+    for i in range(len(map_data['features'])):
+        map_data['features'][i]['properties']['NM_CEP'] = unidecode(map_data['features'][i]['properties']['NM_CEP'])
+    # Roughly sort. NOT RELIABLE for 1-to-1 matching
+    map_data['features'].sort(key=lambda x: x['properties']['NM_CEP'].lower())
+    
+    # Add unique IDs to use as primary key (and also row order)
+    for i in range(len(map_data['features'])):
+        map_data['features'][i]['properties']['ID'] = i
+        
+    return map_data
+
+def get_countries_map_data(path:str='../assets/maps/countries.geojson'):
+    """
+    Load the countries data from the GeoJSON
+    """
+    
+    with open(path) as f:
+        countries_map_data = json.load(f)
+    # Clean the names
+    for i in range(len(countries_map_data['features'])):
+        countries_map_data['features'][i]['properties']['name'] = unidecode(countries_map_data['features'][i]['properties']['name'])
+        
+    # Add unique IDs to use as primary key (and also row order)
+    for i in range(len(countries_map_data['features'])):
+        countries_map_data['features'][i]['properties']['ID'] = i
+    
+    return countries_map_data

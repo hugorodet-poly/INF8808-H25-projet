@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 import pandas as pd
+from unidecode import unidecode
 
 # Noms des circonscriptions considérées appartenant à chaque ville
 circo_groups = {
@@ -48,8 +49,9 @@ circo_groups = {
 def get_map(
     map_data: dict, 
     color: list=None,
-    opacity: float=0.5, 
-    zoom: str='quebec'):
+    opacity: float=0.5,
+    contour_width: int=0,
+    zoom: str='world'):
     """
     Returns a choropleth map of Quebec or Montreal with the specified demographic variable.
     
@@ -57,7 +59,7 @@ def get_map(
         map_data (dict): GeoJSON data for Quebec or Montreal.
         color (list): List of values to color the map.
         opacity (float): Opacity of the map markers (0 to 1).
-        zoom (str): 'quebec' or 'montreal'.
+        zoom (str): 'world' or 'quebec' or 'montreal'.
         
     Returns:
         go.Figure: Choropleth map to plot.
@@ -68,14 +70,16 @@ def get_map(
         featureidkey='properties.ID',
         locations=[f['properties']['ID'] for f in map_data['features']],
         z=color,
-        hovertext=[f['properties']['NM_CEP'] for f in map_data['features']],
-        marker_opacity=opacity, marker_line_width=0))
+        marker_opacity=opacity, marker_line_width=contour_width))
     fig.update_geos(
         projection=dict(
             type="conic conformal",
             parallels=[50, 46]))
     
-    if zoom == 'quebec':
+    zoom = unidecode(zoom).lower()
+    if zoom == 'world':
+        pass # Default zoom, maybe change it laters
+    elif zoom == 'quebec':
         fig.update_layout(
             map=dict(center=dict(lat=54, lon=-68.5), zoom=3.65),
             width=600, height=800)

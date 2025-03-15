@@ -12,7 +12,8 @@ pip install -r requirements.txt
 Cartes stockées dans `assets/maps` et disponibles à [ce lien](https://drive.google.com/drive/folders/1MC0MJos7DbcWdHZJY9pthtZptjLbz-QT?usp=sharing).
 - `districts_QC.geojson` : Les districts électoraux pour tout le québec.
 - `districts_montreal.geojson` : Les districts électoraux uniquement de la Ville de Montréal (donc il y a des trous). Techniquement un sous-ensemble du précédent, mais a été utile à un moment. Ne sera pas nécessaire dans la version finale.
-- `arrondissements_montreal.geojson` : les frontières des arrondissements, différentes de celles des districts électoraux./
+- `arrondissements_montreal.geojson` : les frontières des arrondissements, différentes de celles des districts électoraux.
+- `countries.geojson` : les frontières des pays. Utile pour visualiser d'où viennent les gens à Montréal.
 
 ## Datasets
 
