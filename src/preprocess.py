@@ -4,7 +4,7 @@ import json
 import os
 from unidecode import unidecode
 
-def get_demographics_data(path='../assets/data/donneesSocio2021.csv'):
+def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     """
     Load the demographics data from the CSV file and clean it.
     """
@@ -26,7 +26,19 @@ def get_demographics_data(path='../assets/data/donneesSocio2021.csv'):
     
     return df_dem
     
-def get_map_data(path='../assets/maps/districts_QC.geojson'):
+def get_immigration_data(path:str='../assets/data/arrondissements.csv'):
+    """
+    Load the immigration data PER NEIGHBORHOOD
+    """
+    df_imm = pd.read_csv(path, sep=',')
+    
+    # Clean the names
+    df_imm['Arrondissement'] = df_imm['Arrondissement'].map(lambda s: unidecode(s))
+    df_imm['Arrondissement'] = df_imm['Arrondissement'].map(lambda s: s.strip())
+    
+    return df_imm    
+    
+def get_map_data(path:str='../assets/maps/districts_QC.geojson'):
     """
     Load the map data from the GeoJSON file and clean it.
     """
@@ -46,7 +58,7 @@ def get_map_data(path='../assets/maps/districts_QC.geojson'):
         
     return map_data
 
-def get_elections_data(path='../assets/data/resultats.csv'):
+def get_elections_data(path:str='../assets/data/resultats.csv'):
     """
     Load the elections data from the CSV file and clean it.
     Group by district for easy plotting on a map.
@@ -59,17 +71,19 @@ def get_elections_data(path='../assets/data/resultats.csv'):
     
     return df 
 
-def nb_candidates_per_circo(df):
+def nb_candidates_per_circo(df:pd.DataFrame):
     """
     Count the number of candidates per district.
     """
     df_grouped = df.groupby('nomCirconscription').apply(lambda x: x.shape[0])
     return df_grouped
 
-def vote_summary_by_circo(df):
+def vote_summary_by_circo(df:pd.DataFrame):
     """
     Group the elections data by circonscription, making a summary.
     Columns starting with "nb" are summed, columns starting with "taux" are averaged.
+    If you want info for a specific party only, you can just pass as argument the sub-dataframe 
+    contaiing only the data from that party, e.g. df[df['abreviationPartiPolitique']=='P.L.Q/L.P.Q']
     """
     
     def reduction_fn(x):

@@ -2,8 +2,8 @@
 
 ## Installation des dépendances
 
-Avant d'exécuter les scripts, assurez-vous d'installer les dépendances nécessaires. Exécutez la commande suivante pour installer toutes les bibliothèques listées dans le fichier requirements.txt :
-```
+Avant d'exécuter les scripts, assurez-vous d'installer les dépendances nécessaires. Nous utilisons *Python 1.11*. Exécutez la commande suivante pour installer toutes les bibliothèques listées dans le fichier `requirements.txt` :
+```bash
 pip install -r requirements.txt
 ```
 

@@ -1,5 +1,7 @@
 import plotly.graph_objects as go
+import pandas as pd
 
+# Noms des circonscriptions considérées appartenant à chaque ville
 circo_groups = {
     'Montréal': [
         'Acadie',
@@ -43,7 +45,25 @@ circo_groups = {
         'Vanier-Les Rivieres'], 
 }
 
-def get_map(map_data, demographics, variable, opacity=0.5, zoom='quebec'):
+def get_map(
+    map_data: dict, 
+    demographics: pd.DataFrame, 
+    variable: str, 
+    opacity: float=0.5, 
+    zoom: str='quebec'):
+    """
+    Returns a choropleth map of Quebec or Montreal with the specified demographic variable.
+    
+    Args:
+        map_data (dict): GeoJSON data for Quebec or Montreal.
+        demographics (DataFrame): Dataframe containing the variable for the color.
+        variable (str): Name of the variable to display.
+        opacity (float): Opacity of the map markers (0 to 1).
+        zoom (str): 'quebec' or 'montreal'.
+        
+    Returns:
+        go.Figure: Choropleth map to plot.
+    """
     z = demographics[variable].values
     if demographics[variable].dtype == 'object':
         z = [float(s[:-1].replace(',', '.')) for s in z]
@@ -66,7 +86,7 @@ def get_map(map_data, demographics, variable, opacity=0.5, zoom='quebec'):
             width=600, height=800)
     elif zoom == 'montreal':
         fig.update_layout(
-            map=dict(center=dict(lat=45.5, lon=-73.6), zoom=9.5),
+            map=dict(center=dict(lat=45.53, lon=-73.67), zoom=9.5),
             width=600, height=800)
     else:
         raise ValueError('Invalid zoom value. Use "quebec" or "montreal".')    
