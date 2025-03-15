@@ -2,8 +2,8 @@ import os
 from bs4 import BeautifulSoup
 import pandas as pd
 
-input_dir = "borough_reports"
-output_dir = "immigration_extracted_csvs"
+input_dir = "../../assets/data/borough_reports"
+output_dir = "../../assets/data/immigration_extracted_csvs"
 os.makedirs(output_dir, exist_ok=True)
 
 def extract_csv_from_html(file_path, output_dir):

@@ -20,8 +20,8 @@ Datasets stockés dans `assets/data`
 ## Cartes
 
 Cartes stockées dans `assets/maps`
-- `districts_montreal.geojson` : Les districts électoraux uniquement de la Ville de Montréal (donc il y a des trous)
-- `districts_QC.geojson` : Les districts électoraux pour tout le québec
+- `districts_QC.geojson` : Les districts électoraux pour tout le québec.
+- `districts_montreal.geojson` : Les districts électoraux uniquement de la Ville de Montréal (donc il y a des trous). Techniquement un sous-ensemble du précédent, mais a été utile à un moment. Ne sera pas nécessaire dans la version finale.
 - `arrondissements_montreal.geojson` : les frontières des arrondissements, différentes de celles des districts électoraux.
 
 ## Exécution des Scripts
@@ -35,5 +35,8 @@ Cartes stockées dans `assets/maps`
 
 #### Ordre d'exécution des scripts :
 
-1. src\dataFetcher\data-fetcher-donnees-quebec.py - Télécharge les rapports HTML de chaque arrondissement.
-2. src\dataFetcher\extract-data-donnees-quebec.py - Extrait les tableaux CSV des fichiers HTML téléchargés.
+1. `src/dataFetcher/data-fetcher-donnees-quebec.py` - Télécharge les rapports HTML de chaque arrondissement.
+2. `src/dataFetcher/extract-data-donnees-quebec.py` - Extrait les tableaux CSV des fichiers HTML téléchargés.
+3. `src/dataFetcher/aggregate-neighborhood-data.py` - Agrège les données des tableux CSV en un seul.
+4. `src/dataFetcher/data-fetcher-donneesSocio.py` - Extrait les données démographiques par circonscription électorale.
+   
