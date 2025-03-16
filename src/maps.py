@@ -176,3 +176,98 @@ def get_subset_mask(set: list, subset:list):
     """
     return np.array([s in subset for s in set])
         
+def get_countries_of_origin(
+    neighborhood: str, 
+    df: pd.DataFrame, 
+    mapdata: dict):
+    """
+    Find where people come from in a given neighborhood.
+    This is meant return the "color" variable to use with get_map,
+    to plot on a choropleth map the accurate number of people coming from each country.
+    
+    Args:
+        neighborhood (str): Name of the neighborhood.
+        df (pd.DataFrame): Dataframe with the neighborhoods data (also called "immigration data" in the project).
+        mapdata (dict): GeoJSON data for the neighborhoods.
+        
+    Returns:
+        str: Name of the country of origin.
+    """
+
+    # Those are the indices of the columns containing "country of origin" info in the dataframe
+    indices = {
+        'all': np.arange(134, 193),
+        'Americas': {
+            'main': np.arange(135, 145),
+            'other': 145
+        },
+        'Europe': {
+            'main': np.arange(147, 162),
+            'other': 162
+        },
+        'Africa': {
+            'main': np.arange(164, 173),
+            'other': 173
+        },
+        'Asia': {
+            'main': np.arange(175, 191),
+            'other': 191
+        },
+        'Oceania': {
+            'other': 192
+        }
+    }
+
+    # Some names are different in the mapdata geoJSON and in the dataframe
+    to_change = {
+        'salvador': 'el salvador',
+        'pays-bas': 'pays bas',
+        'republique democratique du congo': 'congo rdc',
+        'coree du sud': 'coree sud',
+        'republique populaire de chine': 'chine',   
+        'irak': 'iraq'
+    }
+
+    # Already get the subdataframe 
+    df = df[df['Arrondissement']==neighborhood]
+
+    # Prepare some lists for optimization purposes
+    countries = df.columns[
+        np.concatenate((indices['Americas']['main'], indices['Europe']['main'], indices['Africa']['main'], indices['Asia']['main']), axis=0)
+        ].map(lambda s: unidecode(s).lower()).values
+
+    # Always have to format everything......
+    formatted_columns = df.columns.map(lambda s: unidecode(s).lower()).to_list()
+
+    # Iteratively fill this list of values
+    color = []
+    for i, feature in enumerate(mapdata['features']):
+        
+        # Format the country name
+        country_name = unidecode(feature['properties']['name_fr']).lower()
+        if country_name in to_change.keys():
+            country_name = to_change[country_name]
+            
+        # If country name is in the dataframe, use the listed value
+        if country_name in countries:
+            idx = formatted_columns.index(country_name)
+            color.append(df.iloc[0, idx])
+            
+        # Elif the continent is in the dataframe, use the listed value for "Autres lieux de naissance..."
+        # There are issue with how we SHOULD represent this data, so for now it's not used
+        # elif feature['properties']['continent'] in ['South America', 'North America']:
+        #     color.append(df.iloc[0, indices['Americas']['other']])
+        # elif feature['properties']['continent'] in ['Europe']:
+        #     color.append(df.iloc[0, indices['Europe']['other']])
+        # elif feature['properties']['continent'] in ['Africa']:
+        #     color.append(df.iloc[0, indices['Africa']['other']])
+        # elif feature['properties']['continent'] in ['Asia']:
+        #     color.append(df.iloc[0, indices['Asia']['other']])
+        # elif feature['properties']['continent'] in ['Oceania']:
+        #     color.append(df.iloc[0, indices['Oceania']['other']])
+
+        # Else we don't plot the country (e.g. for Antarctica)
+        else:
+            color.append(None)
+
+    return color
