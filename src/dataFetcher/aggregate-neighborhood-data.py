@@ -6,6 +6,30 @@ import pandas as pd
 SRC_DIRPATH = '../../assets/data/immigration_extracted_csvs'
 DST_FPATH = '../../assets/data/arrondissements.csv'
 
+# Translate the names from those of the immigration/neighborhoods CSV to those of the GeoJSON
+CLEAN_NAMES = {
+    'Agglomération de Montréal': 'Agglomération de Montréal',
+    'Ville de Montréal': 'Ville de Montréal',
+    
+    'Ahuntsic-Cartierville': 'Ahuntsic-Cartierville',
+    'Anjou': 'Anjou',
+    'Cte-des-NeigesNotre-Dame-de-Grce':'Côte-des-Neiges–Notre-Dame-de-Grâce',
+    'L\'le-BizardSainte-Genevive': 'L\'Île-Bizard–Sainte-Geneviève',
+    'LaSalle': 'LaSalle',
+    'Lachine': 'Lachine',
+    'MercierHochelaga-Maisonneuve': 'Mercier–Hochelaga-Maisonneuve', 
+    'Montral-Nord':'Montréal-Nord',
+    'Outremont': 'Outremont',
+    'Pierrefonds-Roxboro': 'Pierrefonds-Roxboro',
+    'Rivire-des-PrairiesPointe-aux-Trembles': 'Rivière-des-Prairies–Pointe-aux-Trembles',
+    'RosemontLa': 'Rosemont–La Petite-Patrie',
+    'Saint-Laurent': 'Saint-Laurent',
+    'Saint-Lonard': 'Saint-Léonard',
+    'Verdun': 'Verdun',
+    'Ville-Marie': 'Ville-Marie',
+    'VilleraySaint-MichelParc-Extension': 'Villeray–Saint-Michel–Parc-Extension',
+    'Le_Plateau-Mont-Royal': 'Le Plateau-Mont-Royal',
+    'Le_Sud-Ouest': 'Le Sud-Ouest'}
 
 csv_fnames = os.listdir(SRC_DIRPATH)
 arrond_names = np.unique([s.split('_')[0] for s in csv_fnames]).tolist()
@@ -84,5 +108,8 @@ for arrond_name in arrond_names:
         data = np.array([values]),
         columns=col_names)
     main_df = pd.concat([main_df, df])
+
+# Clean up the names
+main_df['Arrondissement'] = main_df['Arrondissement'].map(lambda s: CLEAN_NAMES[s])
 
 main_df.to_csv(DST_FPATH, index=False)
