@@ -31,15 +31,11 @@ def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     
     return df_dem
     
-def get_immigration_data(path:str='../assets/data/arrondissements.csv'):
+def get_boroughs_data(path:str='../assets/data/arrondissements.csv'):
     """
-    Load the immigration data PER NEIGHBORHOOD (not the same as electoral disctricts)
+    Load the immigration data PER borough (not the same as electoral disctricts)
     """
     df_imm = pd.read_csv(path, sep=',')
-    
-    # Clean the names
-    df_imm['Arrondissement'] = df_imm['Arrondissement'].map(lambda s: unidecode(s))
-    df_imm['Arrondissement'] = df_imm['Arrondissement'].map(lambda s: s.strip())
     
     return df_imm    
 

@@ -51,9 +51,8 @@ circo_subsets = {
 def get_map(
     map_data: dict, 
     color: list=None,
-    opacity: float=0.5,
-    contour_width: int=0,
-    zoom: str='world'):
+    zoom: str='auto',
+    **kwargs):
     """
     Returns a choropleth map of Quebec or Montreal with the specified demographic variable.
     
@@ -73,19 +72,14 @@ def get_map(
         color = [0]*len(map_data['features'])
     
     # Plot the choropleth
-    fig = go.Figure(go.Choroplethmap(
-        geojson=map_data,
-        featureidkey='properties.ID',
-        locations=[f['properties']['ID'] for f in map_data['features']],
-        z=color,
-        colorscale='Viridis',
-        marker_opacity=opacity, marker_line_width=contour_width))
-    
-    # Male sure the coordinates of the GeoJSON and plotly chrolopleth correspond
-    fig.update_geos(
-        projection=dict(
-            type="conic conformal",
-            parallels=[50, 46]))
+    fig = go.Figure(
+        go.Choroplethmap(
+            geojson=map_data,
+            featureidkey='properties.ID',
+            locations=[f['properties']['ID'] for f in map_data['features']],
+            z=color,
+            colorscale='Inferno',
+            **kwargs))
     
     # Set the zoom level
     zoom = unidecode(zoom).lower()
@@ -99,12 +93,23 @@ def get_map(
         fig.update_layout(
             map=dict(center=dict(lat=45.53, lon=-73.67), zoom=9.5),
             width=600, height=800)
+    elif zoom == 'auto':
+        pass
     else:
-        raise ValueError('Invalid zoom value. Use "quebec" or "montreal".')    
+        raise ValueError('Invalid zoom value. Use "auto", "quebec" or "montreal".')  
+    
+    # Make sure the coordinates of the GeoJSON and plotly chrolopleth correspond
+    fig.update_geos(
+        fitbounds="locations",
+        projection=dict(
+            type="conic conformal",
+            parallels=[50, 46]))
+      
     return fig
 
 def get_districts_mapdata(path:str='../assets/maps/districts_QC.geojson'):
     """
+    Map data for the electoral districts.
     Load the map data from the GeoJSON file and clean it.
     """
     
@@ -141,9 +146,9 @@ def get_countries_mapdata(path:str='../assets/maps/countries.geojson'):
     
     return countries_map_data
 
-def get_neighborhoods_mapdata(path:str='../assets/maps/arrondissements_montreal.geojson'):
+def get_boroughs_mapdata(path:str='../assets/maps/arrondissements_montreal.geojson'):
     """
-    Load the neighborhood data from the GeoJSON
+    Load the borough data from the GeoJSON
     """
     
     with open(path) as f:
@@ -152,6 +157,10 @@ def get_neighborhoods_mapdata(path:str='../assets/maps/arrondissements_montreal.
     # Clean the names
     for i in range(len(countries_map_data['features'])):
         countries_map_data['features'][i]['properties']['nom_qr'] = unidecode(countries_map_data['features'][i]['properties']['nom_qr'])
+        
+        s = countries_map_data['features'][i]['properties']['nom_arr']
+        s = s.replace('–', ', ') if s is not None else None
+        countries_map_data['features'][i]['properties']['nom_arr'] = s
         
     # Add unique IDs to use as primary key (and also row order)
     for i in range(len(countries_map_data['features'])):
@@ -177,18 +186,18 @@ def get_subset_mask(set: list, subset:list):
     return np.array([s in subset for s in set])
         
 def get_countries_of_origin(
-    neighborhood: str, 
+    borough: str, 
     df: pd.DataFrame, 
     mapdata: dict):
     """
-    Find where people come from in a given neighborhood.
+    Find where people come from in a given borough.
     This is meant return the "color" variable to use with get_map,
     to plot on a choropleth map the accurate number of people coming from each country.
     
     Args:
-        neighborhood (str): Name of the neighborhood.
-        df (pd.DataFrame): Dataframe with the neighborhoods data (also called "immigration data" in the project).
-        mapdata (dict): GeoJSON data for the neighborhoods.
+        borough (str): Name of the borough.
+        df (pd.DataFrame): Dataframe with the boroughs data (also called "immigration data" in the project).
+        mapdata (dict): GeoJSON data for the boroughs.
         
     Returns:
         str: Name of the country of origin.
@@ -229,7 +238,7 @@ def get_countries_of_origin(
     }
 
     # Already get the subdataframe 
-    df = df[df['Arrondissement']==neighborhood]
+    df = df[df['Arrondissement']==borough]
 
     # Prepare some lists for optimization purposes
     countries = df.columns[
@@ -241,7 +250,7 @@ def get_countries_of_origin(
 
     # Iteratively fill this list of values
     color = []
-    for i, feature in enumerate(mapdata['features']):
+    for feature in mapdata['features']:
         
         # Format the country name
         country_name = unidecode(feature['properties']['name_fr']).lower()
