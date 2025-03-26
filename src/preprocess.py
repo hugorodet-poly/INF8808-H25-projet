@@ -102,3 +102,14 @@ def get_participation_per_district(df):
     df_grouped = df.groupby('nomCirconscription').agg({'tauxParticipation': 'first'}).reset_index()
     
     return df_grouped
+
+def get_elections_data_by_winning_party(df):
+    """
+    Group the elections data by winning party.
+    """
+    
+    df_grouped =  df.groupby('nomCirconscription').agg({'abreviationPartiPolitique': 'first', 'nbVoteAvance': 'first'}).reset_index()
+    # only keep the winning party
+    df_grouped = df_grouped[df_grouped['nbVoteAvance'] == df_grouped.groupby('nomCirconscription')['nbVoteAvance'].transform(max)]
+    
+    return df_grouped
