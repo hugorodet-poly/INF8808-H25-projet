@@ -103,6 +103,15 @@ def get_participation_per_district(df):
     
     return df_grouped
 
+def get_taux_vote_per_district(df):
+    """
+    Group the elections data by circonscription to get the participation rate.
+    """
+    
+    df_grouped = df.groupby('nomCirconscription').agg({'tauxVote': 'first'}).reset_index()
+    
+    return df_grouped
+
 def get_elections_data_by_winning_party(df):
     """
     Group the elections data by winning party.
