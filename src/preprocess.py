@@ -4,6 +4,15 @@ import json
 import os
 from unidecode import unidecode
 
+# Constants
+
+political_parties = {
+    1: "Coalition avenir Québec",
+    2: "Parti libéral du Québec",
+    3: "Québec solidaire",
+    4: "Parti québécois"
+    }
+
 def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     """
     Load the demographics data from the CSV file and clean it.
@@ -89,4 +98,99 @@ def vote_summary_by_circo(df:pd.DataFrame):
     df_grouped = df_dropped.groupby('nomCirconscription').apply(reduction_fn, include_groups=False).reset_index()
     df_grouped = df_grouped.sort_values(by='nomCirconscription', key=lambda x: x.str.lower()).reset_index(drop=True)
 
+    return df_grouped
+
+
+def group_elections_data_as_party(df, circonscription=None, party='Q.S.'):
+    """
+    return the vote rate of a specific party in a specific circonscription
+    """
+    
+    # Filtrer le DataFrame pour ne garder que les votes du parti choisi
+    df_filtered = df[df['abreviationPartiPolitique'] == party]
+    
+    # Grouper par circonscription et récupérer le taux de vote
+    df_grouped = df_filtered.groupby('nomCirconscription', as_index=False)['tauxVote'].sum()
+
+    # Si une circonscription spécifique est demandée, on la filtre
+    if circonscription:
+        df_grouped = df_grouped[df_grouped['nomCirconscription'] == circonscription]
+
+    return df_grouped
+
+def get_participation_per_district(df):
+    """
+    Group the elections data by circonscription to get the participation rate.
+    """
+    
+    df_grouped = df.groupby('nomCirconscription').agg({'tauxParticipation': 'first'}).reset_index()
+    
+    return df_grouped
+
+def get_taux_vote_per_district(df):
+    """
+    Group the elections data by circonscription to get the participation rate.
+    """
+    
+    df_grouped = df.groupby('nomCirconscription').agg({'tauxVote': 'first'}).reset_index()
+    
+    return df_grouped
+
+def get_elections_data_by_winning_party(df):
+    """
+    Group the elections data by winning party.
+    """
+    
+    df_grouped =  df.groupby('nomCirconscription').agg({'abreviationPartiPolitique': 'first', 'nbVoteAvance': 'first'}).reset_index()
+    # only keep the winning party
+    df_grouped = df_grouped[df_grouped['nbVoteAvance'] == df_grouped.groupby('nomCirconscription')['nbVoteAvance'].transform(max)]
+    
+    return df_grouped
+
+def map_abreviation_to_party_name():
+    """
+    Map the party abbreviation to the party name.
+    """
+    
+    political_parties = {
+        1: "Coalition avenir Québec",
+        2: "Parti libéral du Québec",
+        3: "Québec solidaire",
+        4: "Parti québécois"
+        }
+    
+    abreviation = {
+        1: "C.A.Q.-E.F.L.",
+        2: "P.L.Q./Q.L.P.",
+        3: "Q.S.",
+        4: "P.Q."
+    }
+    
+    # Convert to DataFrame
+    df = pd.DataFrame(political_parties.items(), columns=['id', 'nomPartiPolitique'])
+    # add abreviation
+    df['abreviationPartiPolitique'] = df['id'].map(abreviation)
+    
+    # Clean the names
+    df.rename(columns={s:unidecode(s) for s in df.columns}, inplace=True)
+    
+    return df[['abreviationPartiPolitique', 'nomPartiPolitique']]
+
+def get_circonscriptions_with_full_party_name():
+
+    df = get_elections_data_by_winning_party(get_elections_data())
+    df_map = map_abreviation_to_party_name()
+
+    df = df.merge(right=df_map, how='inner', left_on='abreviationPartiPolitique', right_on='abreviationPartiPolitique')
+    df.sort_values(by=("abreviationPartiPolitique"), inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    return df
+
+def get_lists_of_circonscription_according_to_winning_party():
+    """
+    Get the lists of circonscriptions according to the winning party.
+    """
+    
+    df_grouped = get_circonscriptions_with_full_party_name().groupby('nomPartiPolitique')['nomCirconscription'].apply(list).reset_index()
+    
     return df_grouped
