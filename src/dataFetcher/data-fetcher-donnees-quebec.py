@@ -5,7 +5,7 @@ import os
 API_URL = "https://www.donneesquebec.ca/recherche/api/3/action/package_show"
 DATASET_ID = "vmtl-portrait-thematique-sur-l-immigration"
 
-output_dir = "borough_reports"
+output_dir = "../../assets/data/borough_reports"
 os.makedirs(output_dir, exist_ok=True)
 
 response = requests.get(f"{API_URL}?id={DATASET_ID}")
