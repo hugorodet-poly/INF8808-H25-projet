@@ -1,9 +1,11 @@
 import requests
 import json
 import csv
+import os
 
 json_url = "https://donnees.electionsquebec.qc.ca/production/provincial/resultats/archives/gen2022-10-03/resultats.json"
-csv_output_file = "resultats.csv"
+os.makedirs("assets/data", exist_ok=True)
+csv_output_file = "assets/data/resultats.csv"
 
 response = requests.get(json_url)
 

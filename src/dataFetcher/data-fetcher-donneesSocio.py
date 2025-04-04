@@ -1,8 +1,11 @@
 import requests
+import os
 
 url = "https://donnees.electionsquebec.qc.ca/autres/donnees-circ/data_donneesSocio2021.csv"
 
-output_file = "../../assets/data/donneesSocio2021.csv"
+# Create the directory if it doesn't exist
+os.makedirs("assets/data", exist_ok=True)
+output_file = "assets/data/donneesSocio2021.csv"
 
 response = requests.get(url)
 

@@ -13,7 +13,7 @@ political_parties = {
     4: "Parti québécois"
     }
 
-def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
+def get_demographics_data(path:str='assets/data/donneesSocio2021.csv'):
     """
     Load the demographics data from the CSV file and clean it.
     """
@@ -40,7 +40,7 @@ def get_demographics_data(path:str='../assets/data/donneesSocio2021.csv'):
     
     return df_dem
     
-def get_boroughs_data(path:str='../assets/data/arrondissements.csv'):
+def get_boroughs_data(path:str='assets/data/arrondissements.csv'):
     """
     Load the immigration data PER borough (not the same as electoral disctricts)
     """
@@ -48,7 +48,7 @@ def get_boroughs_data(path:str='../assets/data/arrondissements.csv'):
     
     return df_imm    
 
-def get_elections_data(path:str='../assets/data/resultats.csv'):
+def get_elections_data(path:str='assets/data/resultats.csv'):
     """
     Load the elections data from the CSV file and clean it.
     Group by district for easy plotting on a map.

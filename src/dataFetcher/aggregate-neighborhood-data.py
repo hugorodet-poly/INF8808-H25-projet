@@ -3,8 +3,8 @@ import os.path as osp
 import numpy as np
 import pandas as pd
 
-SRC_DIRPATH = '../../assets/data/immigration_extracted_csvs'
-DST_FPATH = '../../assets/data/arrondissements.csv'
+SRC_DIRPATH = 'assets/data/immigration_extracted_csvs'
+DST_FPATH = 'assets/data/arrondissements.csv'
 
 # Translate the names from those of the immigration/neighborhoods CSV to those of the GeoJSON
 CLEAN_NAMES = {

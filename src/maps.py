@@ -107,13 +107,13 @@ def get_map(
       
     return fig
 
-def get_districts_mapdata(path:str='../assets/maps/districts_QC.geojson'):
+def get_districts_mapdata(path:str='assets/maps/districts_QC.geojson'):
     """
     Map data for the electoral districts.
     Load the map data from the GeoJSON file and clean it.
     """
     
-    with open(path) as f:
+    with open(path, 'r', encoding='utf-8-sig') as f:
         map_data = json.load(f)
 
     # Clean the names
@@ -128,12 +128,12 @@ def get_districts_mapdata(path:str='../assets/maps/districts_QC.geojson'):
         
     return map_data
 
-def get_countries_mapdata(path:str='../assets/maps/countries.geojson'):
+def get_countries_mapdata(path:str='assets/maps/countries.geojson'):
     """
     Load the countries data from the GeoJSON
     """
     
-    with open(path) as f:
+    with open(path, 'r', encoding='utf-8-sig') as f:
         countries_map_data = json.load(f)
         
     # Clean the names
@@ -146,27 +146,27 @@ def get_countries_mapdata(path:str='../assets/maps/countries.geojson'):
     
     return countries_map_data
 
-def get_boroughs_mapdata(path:str='../assets/maps/arrondissements_montreal.geojson'):
+def get_boroughs_mapdata(path:str='assets/maps/arrondissements_montreal.geojson'):
     """
     Load the borough data from the GeoJSON
     """
     
-    with open(path) as f:
-        countries_map_data = json.load(f)
+    with open(path, 'r', encoding='utf-8-sig') as f:
+        boroughs_map_data = json.load(f)
         
     # Clean the names
-    for i in range(len(countries_map_data['features'])):
-        countries_map_data['features'][i]['properties']['nom_qr'] = unidecode(countries_map_data['features'][i]['properties']['nom_qr'])
+    for i in range(len(boroughs_map_data['features'])):
+        boroughs_map_data['features'][i]['properties']['nom_qr'] = unidecode(boroughs_map_data['features'][i]['properties']['nom_qr'])
         
-        s = countries_map_data['features'][i]['properties']['nom_arr']
+        s = boroughs_map_data['features'][i]['properties']['nom_arr']
         s = s.replace('–', ', ') if s is not None else None
-        countries_map_data['features'][i]['properties']['nom_arr'] = s
+        boroughs_map_data['features'][i]['properties']['nom_arr'] = s
         
     # Add unique IDs to use as primary key (and also row order)
-    for i in range(len(countries_map_data['features'])):
-        countries_map_data['features'][i]['properties']['ID'] = i
+    for i in range(len(boroughs_map_data['features'])):
+        boroughs_map_data['features'][i]['properties']['ID'] = i
     
-    return countries_map_data
+    return boroughs_map_data
 
 def get_subset_mask(set: list, subset:list):
     """

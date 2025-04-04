@@ -1,0 +1,208 @@
+/* Modern Dashboard Styles */
+
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #6c757d;
+  --accent-color: #47b39d;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --success-color: #5cb85c;
+  --danger-color: #d9534f;
+  --warning-color: #f0ad4e;
+  --info-color: #5bc0de;
+}
+
+/* Base Styles */
+body {
+  background: linear-gradient(120deg, #f6f9fc 0%, #e7edf3 100%);
+  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--dark-color);
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+
+/* Header Styles */
+.dashboard-header {
+  padding: 30px 20px;
+  background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+  color: white;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.dashboard-header p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tab Styles */
+.custom-tabs {
+  margin-bottom: 30px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.custom-tabs .tab:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+  }
+
+.custom-tabs .tab {
+  padding: 15px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.custom-tabs .tab--selected {
+  background-color: white !important;
+  color: var(--primary-color) !important;
+  border-top: 3px solid var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Styles */
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.card p {
+  color: var(--secondary-color);
+}
+
+/* Graph Container */
+.graph-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Loading Spinner */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+/* Dropdown Styles */
+.custom-dropdown .Select-control {
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  box-shadow: none;
+  height: 40px;
+  font-size: 0.9rem;
+}
+
+.custom-dropdown .Select-placeholder, 
+.custom-dropdown .Select--single > .Select-control .Select-value {
+  line-height: 40px;
+  color: #6c757d;
+}
+
+.custom-dropdown .VirtualizedSelectFocusedOption {
+  background-color: rgba(74, 111, 165, 0.1);
+}
+
+.custom-dropdown .Select-menu-outer {
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.custom-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-button:hover {
+  background-color: #3a5a84;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.custom-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Detail Box Styles */
+.details-box {
+  background-color: #f8f9fa;
+  border-left: 4px solid var(--primary-color);
+  padding: 15px;
+  border-radius: 0 8px 8px 0;
+  margin: 20px 0;
+}
+
+.details-box h4 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .dashboard-header p {
+    font-size: 1rem;
+  }
+  
+  .custom-tabs .tab {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}

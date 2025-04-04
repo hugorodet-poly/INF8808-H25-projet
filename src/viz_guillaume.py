@@ -1,8 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-from maps import get_map, get_districts_mapdata, circo_subsets
-from preprocess import get_elections_data, get_demographics_data
+from src.maps import get_map, get_districts_mapdata, circo_subsets
+from src.preprocess import get_elections_data, get_demographics_data
 
 
 def stacked_bar_chart_most():
@@ -129,7 +129,7 @@ def stacked_bar_chart_most():
                       title_yanchor='top',
                       title_font=dict(size=32, weight='bold'),
                       )
-    fig.show()
+    return fig
 
 
 def stacked_bar_chart_least():
@@ -256,7 +256,7 @@ def stacked_bar_chart_least():
                       title_yanchor='top',
                       title_font=dict(size=32, weight='bold'),
                       )
-    fig.show()
+    return fig
 
 
 def linguistic_map():
@@ -288,7 +288,7 @@ def linguistic_map():
         width=1366,
     )
     fig.data[0].colorbar = dict(ticksuffix="%")
-    fig.show()
+    return fig
 
 
 def immigrants_map():
@@ -319,4 +319,4 @@ def immigrants_map():
                       width=1366,
                       )
     fig.data[0].colorbar = dict(ticksuffix="%")
-    fig.show()
+    return fig

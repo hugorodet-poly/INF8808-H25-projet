@@ -1,4 +1,4 @@
-from preprocess import get_lists_of_circonscription_according_to_winning_party
+from src.preprocess import get_lists_of_circonscription_according_to_winning_party
 
 def set_customdata(z, customdata, m, n, political_parties):
     """
