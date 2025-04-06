@@ -1,0 +1,254 @@
+/* 
+ * Modern, more stylish dashboard look.
+ * Place this in assets/styles.css or similar location that Dash auto-loads.
+ */
+
+/* Root Variables for consistent theming */
+:root {
+  --primary-color: #355c7d;
+  --secondary-color: #6c757d;
+  --accent-color: #c06c84;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --success-color: #5cb85c;
+  --danger-color: #d9534f;
+  --warning-color: #f0ad4e;
+  --info-color: #5bc0de;
+
+  /* Extra spacing, border, etc. */
+  --card-border-radius: 12px;
+  --card-shadow: 0 6px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* Base */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #fafafa;
+  color: var(--dark-color);
+}
+
+.body-wrapper {
+  /* 
+   * This wraps the entire page (including nav + main + footer). 
+   * You can add a subtle gradient background, or keep it plain.
+   */
+  background: linear-gradient(120deg, #fafafa 0%, #eeeeee 100%);
+  min-height: 100vh;
+  position: relative;
+  padding-top: 70px; /* So that content is below the navbar */
+}
+
+/* Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--primary-color);
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: #fff;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  align-self: center;
+  padding: 5px 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  opacity: 0.8;
+}
+
+/* Header "Hero" section */
+.hero-header {
+  padding: 40px 20px;
+  text-align: center;
+  background: var(--light-color);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+}
+
+.hero-header h1 {
+  margin-top: 0;
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.hero-header p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 15px auto 0 auto;
+  color: var(--secondary-color);
+}
+
+/* Main Container */
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px 40px 20px;
+}
+
+/* Section Titles & Dividers */
+.section-title {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+  border-left: 5px solid var(--accent-color);
+  padding-left: 10px;
+  font-weight: 600;
+}
+
+.section-divider {
+  border: none;
+  height: 1px;
+  margin: 40px 0;
+  background-color: #ccc;
+  opacity: 0.3;
+}
+
+/* Cards */
+.card {
+  background-color: #fff;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.card p {
+  color: var(--secondary-color);
+  margin-bottom: 0.6rem;
+}
+
+/* Flex Rows (for side-by-side cards) */
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.flex-child {
+  flex: 1; 
+  min-width: 300px; /* so it doesn't squish too much on smaller screens */
+}
+
+/* Graph Container */
+.graph-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Dropdown Styles */
+.custom-dropdown .Select-control {
+  border-radius: 6px !important;
+  border: 1px solid #dee2e6 !important;
+  box-shadow: none !important;
+  height: 40px;
+  font-size: 0.9rem;
+}
+
+.custom-dropdown .Select-placeholder,
+.custom-dropdown .Select--single > .Select-control .Select-value {
+  line-height: 40px;
+  color: #6c757d;
+}
+
+.custom-dropdown .VirtualizedSelectFocusedOption {
+  background-color: rgba(74, 111, 165, 0.1);
+}
+
+.custom-dropdown .Select-menu-outer {
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.page-footer {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 15px 20px;
+  text-align: center;
+}
+
+.page-footer p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.page-footer a {
+  color: #fff;
+  margin-left: 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.page-footer a:hover {
+  opacity: 0.8;
+}
+
+/* Responsive Tweak */
+@media (max-width: 768px) {
+  .flex-row {
+    flex-direction: column;
+  }
+  
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+  
+  .nav-right {
+    margin-top: 10px;
+  }
+  
+  .hero-header h1 {
+    font-size: 1.8rem;
+  }
+}
