@@ -107,7 +107,7 @@ def get_map(
       
     return fig
 
-def get_districts_mapdata(path:str='assets/maps/districts_QC.geojson'):
+def get_districts_mapdata(path:str='../assets/maps/districts_QC.geojson'):
     """
     Map data for the electoral districts.
     Load the map data from the GeoJSON file and clean it.
@@ -128,7 +128,7 @@ def get_districts_mapdata(path:str='assets/maps/districts_QC.geojson'):
         
     return map_data
 
-def get_countries_mapdata(path:str='assets/maps/countries.geojson'):
+def get_countries_mapdata(path:str='../assets/maps/countries.geojson'):
     """
     Load the countries data from the GeoJSON
     """
