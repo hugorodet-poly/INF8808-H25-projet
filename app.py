@@ -212,4 +212,4 @@ def update_party_income_chart(party):
     return dcc.Graph(figure=fig, className='graph')
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
