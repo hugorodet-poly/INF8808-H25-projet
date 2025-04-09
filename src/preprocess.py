@@ -143,7 +143,7 @@ def get_elections_data_by_winning_party(df):
     
     df_grouped =  df.groupby('nomCirconscription').agg({'abreviationPartiPolitique': 'first', 'nbVoteAvance': 'first'}).reset_index()
     # only keep the winning party
-    df_grouped = df_grouped[df_grouped['nbVoteAvance'] == df_grouped.groupby('nomCirconscription')['nbVoteAvance'].transform(max)]
+    df_grouped['nbVoteAvance'] == df_grouped.groupby('nomCirconscription')['nbVoteAvance'].transform("max")
     
     return df_grouped
 

@@ -1,6 +1,6 @@
 from src.preprocess import get_lists_of_circonscription_according_to_winning_party
 
-def set_customdata(z, customdata, m, n, political_parties):
+def set_customdata_Quebec(z, customdata, m, n, political_parties):
     """
     Set the customdata for the plot based on the winning party in each region.
     
@@ -41,14 +41,6 @@ def set_customdata(z, customdata, m, n, political_parties):
 def set_customdata_montreal(z, customdata, m, n, political_parties):
     df = get_lists_of_circonscription_according_to_winning_party()
 
-    # montreal_circonscriptions = [
-    #     "Bourassa-Sauve", "Acadie", "Viau", "Saint-Henri-Sainte-Anne", 
-    #     "Saint-Laurent", "Westmount-Saint-Louis", "Jeanne-Mance-Viger", 
-    #     "Chomedey", "Notre-Dame-de-Grace", "D'Arcy-McGee", 
-    #     "Mont-Royal-Outremont", "LaFontaine", "Marquette", 
-    #     "Maurice-Richard", "Hochelaga-Maisonneuve", "Laurier-Dorion", 
-    #     "Sainte-Marie-Saint-Jacques", "Verdun", "Rosemont", "Gouin"
-    # ]
     montreal_circonscriptions = ["Acadie", "Anjou-Louis-Riel", "Bourassa-Sauve", "Camille-Laurin", "D'Arcy-McGee",
                                  "Gouin", "Hochelaga-Maisonneuve", "Jacques-Cartier", "Jeanne-Mance-Viger", "LaFontaine", "Laurier-Dorion",
                                  "Marguerite-Bourgeoys", "Marquette", "Maurice-Richard", "Mercier", "Mont-Royal-Outremont",
@@ -60,10 +52,11 @@ def set_customdata_montreal(z, customdata, m, n, political_parties):
     PQ_list = df.iloc[2]
     QS_list = df.iloc[3]
 
-    temp_CAQ = CAQ_list[1]
-    temp_PLQ = PLQ_list[1]
-    temp_PQ = PQ_list[1]
-    temp_QS = QS_list[1]
+    # Accès via .iloc pour les éléments à la position 1
+    temp_CAQ = CAQ_list.iloc[1]
+    temp_PLQ = PLQ_list.iloc[1]
+    temp_PQ = PQ_list.iloc[1]
+    temp_QS = QS_list.iloc[1]
 
     CAQ_list = []
     PLQ_list = []
@@ -86,10 +79,7 @@ def set_customdata_montreal(z, customdata, m, n, political_parties):
         if temp_QS[i] in montreal_circonscriptions:
             QS_list.append(temp_QS[i])
 
-    i_c = 0
-    i_l = 0
-    i_s = 0
-    i_q = 0
+    i_c = i_l = i_s = i_q = 0
     for i in range(m):
         for j in range(n):   
             if  political_parties[z[i, j]] == political_parties[1]:

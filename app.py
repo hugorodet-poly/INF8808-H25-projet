@@ -10,7 +10,7 @@ from src.preprocess import get_demographics_data, get_elections_data, get_boroug
 from src.viz_guillaume import stacked_bar_chart_most, stacked_bar_chart_least, immigrants_map, linguistic_map
 from src.viz_hugo import get_montreal_boroughs_map
 # Import Sidney's visualizations
-from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart
+from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
 from src.viz_sid import get_immigrant_voting_scatter, get_party_income_relation
 from src.viz_countries import get_countries_of_origin_map
 
@@ -27,6 +27,8 @@ linguistic_map_fig = linguistic_map()
 fig_quebec = get_quebec_waffle_chart()
 fig_montreal = get_montreal_waffle_chart()
 fig_hypothetical = get_hypothetical_waffle_chart()
+fig_upper_median_immigration = get_upper_median_immigration_waffle()
+fig_lower_median_immigration = get_lower_median_immigration_waffle()
 fig_immigrant_voting = get_immigrant_voting_scatter()
 fig_most = stacked_bar_chart_most()
 fig_least = stacked_bar_chart_least()
@@ -108,21 +110,32 @@ app.layout = html.Div([
             ], className='flex-row'),
 
             # Another row for the next two
+            # Hypothetical Electoral Scenario
             html.Div([
-                # Hypothetical
-                html.Div([
-                    html.H3('Hypothetical Electoral Scenario'),
-                    html.P('What if Montreal voting patterns applied to all of Quebec?'),
-                    dcc.Graph(figure=fig_hypothetical, className='graph')
-                ], className='card flex-child'),
+                html.H3('Hypothetical Electoral Scenario'),
+                html.P('What if Montreal voting patterns applied to all of Quebec?'),
+                dcc.Graph(figure=fig_hypothetical, className='graph')
+            ], className='card'),
 
-                # Immigration & Voter Participation
-                html.Div([
-                    html.H3('Immigration and Voter Participation'),
-                    html.P('Correlation between immigration rates and voter turnout.'),
-                    dcc.Graph(figure=fig_immigrant_voting, className='graph')
-                ], className='card flex-child'),
-            ], className='flex-row'),
+            # Upper median immigration districts
+            html.Div([
+                html.H3('Upper Median Immigration Districts'),
+                dcc.Graph(figure=fig_upper_median_immigration, className='graph')
+            ], className='card'),
+
+            # Lower median immigration districts
+            html.Div([
+                html.H3('Lower Median Immigration Districts'),
+                dcc.Graph(figure=fig_lower_median_immigration, className='graph')
+            ], className='card'),
+
+            # Immigration and Voter Participation
+            html.Div([
+                html.H3('Immigration and Voter Participation'),
+                html.P('Correlation between immigration rates and voter turnout.'),
+                dcc.Graph(figure=fig_immigrant_voting, className='graph')
+            ], className='card'),
+
 
             # 3.5 Party Support by Income
             html.Div([
