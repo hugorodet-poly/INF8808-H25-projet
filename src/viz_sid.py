@@ -8,6 +8,7 @@ from src.visual_helper import set_customdata_montreal, set_customdata_Quebec
 
 # Define political party colors and names
 political_parties = {
+    0: "Vide",
     1: "Coalition avenir Québec",
     2: "Parti libéral du Québec",
     3: "Québec solidaire",
@@ -62,8 +63,8 @@ def get_quebec_waffle_chart():
     ))
 
     fig.update_layout(
-        width=800,
-        height=200, 
+        width=1200,
+        height=300, 
         yaxis_autorange='reversed',
         title="Sièges par parti politique à l'Assemblée nationale du Québec aux élections 2022",
         title_x=0.5,
@@ -116,8 +117,6 @@ def get_montreal_waffle_chart():
     )
     fig.update_xaxes(showticklabels=False)
     fig.update_yaxes(showticklabels=False)
-    fig.show()
-
     
     return fig
 
@@ -163,8 +162,8 @@ def get_hypothetical_waffle_chart():
     ))
 
     fig.update_layout(
-        width=800,
-        height=200, 
+        width=1200,
+        height=300, 
         yaxis_autorange='reversed',
         title="Sièges par parti politique à l'Assemblée nationale du Québec aux élections 2022 <br> si Montréal était tout le Québec",
         title_x=0.5,
@@ -178,36 +177,39 @@ def get_hypothetical_waffle_chart():
     return fig
 
 def get_upper_median_immigration_waffle():
-    m = 2  # Augmentation du nombre de lignes
-    n = 31  # Augmentation du nombre de colonnes
+    m = 4  # Augmentation du nombre de lignes
+    n = 16  # Augmentation du nombre de colonnes
     z = np.ones((m, n))
 
-    z[1, 0:11] = 3
-    z[1, 11:31] = 2
-    z[0, 0:2] = 2
+    z[0:4, 0:5] = 2
+    z[2, 5] = 2
+    z[3, 5] = 2
+    z[0, 5] = 3
+    z[1,5] = 3
+    z[0:4, 6:8] = 3
+    z[3, 8] = 3
+    z[1, -1] = 0 
+    z[0, -1] = 0  
+
 
     M = max([len(s) for s in political_parties.values()])
     customdata = np.empty((m, n), dtype=f'<U{M}')  
 
-    for i in range(m):
-        for j in range(n):           
-            customdata[i, j] = political_parties[z[i, j]] 
+    customdata = set_customdata(z, customdata, m, n, political_parties)
 
-    # Définition de la palette de couleurs
+    colorscale = [
+        [0.0, "#FFFFFF"],   # blanc
+        [0.33, "#1E90FF"],  # bleu
+        [0.66, "#b52121"],  # orange
+        [1.0, "#FF8040"]    # rouge
+    ]
 
-    colorscale = [[0, "#1E90FF"], #1E90FF
-                [0.33, "#1E90FF"], #00cc96
-                [0.33, "#b52121"], #b52121
-                [0.66,  "#b52121"], #FF8040
-                [0.66, "#FF8040"],
-                [1,"#FF8040"]] #004A9A
-
-    fig = go.Figure(go.Heatmap(z=z,
-                            customdata=customdata, xgap=1, ygap=1,
+    fig = go.Figure(go.Heatmap(z=z,  zmin=0, zmax=3,
+                            customdata=customdata, xgap=3, ygap=3,
                             colorscale=colorscale, showscale=False,
-                            hovertemplate="(%{y}, %{x}): %{customdata})<extra></extra>"))
+                            hovertemplate="%{customdata}<extra></extra>"))
 
-    fig.update_layout(width=700, height=210)
+    fig.update_layout(width=1200, height=400)
 
 
     fig.update_layout(
@@ -219,32 +221,32 @@ def get_upper_median_immigration_waffle():
     return fig
 
 def get_lower_median_immigration_waffle():
-    m = 2  # Augmentation du nombre de lignes
-    n = 31  # Augmentation du nombre de colonnes
+    m = 4  # Augmentation du nombre de lignes
+    n = 16  # Augmentation du nombre de colonnes
     z = np.ones((m, n))
 
-    z[1, 0:3] = 4
+    z[3, 0:3] = 4
+    z[1, -1] = 0 
+    z[0, -1] = 0  
     M = max([len(s) for s in political_parties.values()])
     customdata = np.empty((m, n), dtype=f'<U{M}')  
 
-    for i in range(m):
-        for j in range(n):           
-            customdata[i, j] = political_parties[z[i, j]] 
+    customdata = set_customdata(z, customdata, m, n, political_parties)
 
     # Définition de la palette de couleurs
-    colorscale = [[0, "#1E90FF"], #1E90FF
-                [0.33, "#00cc96"], #00cc96
+    colorscale = [[0, "#FFFFFF"], #1E90FF
+                [0.33, "#1E90FF"], #00cc96
                 [0.33, "#b52121"], #b52121
                 [0.66,  "#FF8040"], #FF8040
                 [0.66, "#FF8040"],
                 [1,"#004A9A"]] #004A9A
 
     fig = go.Figure(go.Heatmap(z=z,
-                            customdata=customdata, xgap=1, ygap=1,
+                            customdata=customdata, xgap=3, ygap=3,
                             colorscale=colorscale, showscale=False,
-                            hovertemplate="(%{y}, %{x}): %{customdata})<extra></extra>"))
+                            hovertemplate="%{customdata}<extra></extra>"))
 
-    fig.update_layout(width=700, height=210 )
+    fig.update_layout(width=1200, height=400)
 
 
     fig.update_layout(
@@ -306,7 +308,7 @@ def get_immigrant_voting_scatter():
     )
     
     fig.update_layout(
-        title="Taux de participation en fonction du taux d'immigration",
+        title="Distribution des circonscription selon le taux de participation en fonction du taux d'immigration",
         title_x=0.5,
         height=600,
         margin=dict(l=10, r=10, t=50, b=10),
@@ -340,7 +342,7 @@ def get_party_income_relation(party='Q.S.'):
     )
     
     fig.update_layout(
-        title=f"Taux de vote pour {party} en fonction du revenu médian des ménages",
+        title=f"Distribution des circonscription selon le taux de vote pour {party} en fonction du revenu médian des ménages",
         title_x=0.5,
         height=600,
         margin=dict(l=10, r=10, t=50, b=10),
