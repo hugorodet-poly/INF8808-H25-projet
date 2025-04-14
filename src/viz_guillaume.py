@@ -306,7 +306,7 @@ def immigrants_map(df, map_data):
     #     if district_name in district_mapping and district_name in circo_subsets['Montréal']:
     #         color[i] = df.loc[district_mapping[district_name], "Immigrants"]
 
-    fig = get_map(map_data, None)
+    fig = get_map(map_data, None, zoom='montreal')
     # fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
     #                   title_x=0.5,
     #                   title_yanchor='top',

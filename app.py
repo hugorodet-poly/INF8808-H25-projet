@@ -98,14 +98,14 @@ app.layout = html.Div([
                     html.H3('Quebec Electoral Representation'),
                     html.P('Distribution of seats in the Quebec National Assembly (2022 election).'),
                     dcc.Graph(figure=fig_quebec, className='graph')
-                ], className='card flex-child'),
+                ], className='card'),
 
                 # Montreal Waffle
                 html.Div([
                     html.H3('Montreal Electoral Representation'),
                     html.P('Distribution of seats in Montreal electoral districts (2022 election).'),
                     dcc.Graph(figure=fig_montreal, className='graph')
-                ], className='card flex-child'),
+                ], className='card'),
 
             ], className='flex-row'),
 
