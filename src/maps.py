@@ -78,7 +78,7 @@ def get_map(
             featureidkey='properties.ID',
             locations=[f['properties']['ID'] for f in map_data['features']],
             z=color,
-            colorscale='Inferno',
+            colorscale='Reds',
             **kwargs))
     
     # Set the zoom level
@@ -250,6 +250,7 @@ def get_countries_of_origin(
 
     # Iteratively fill this list of values
     color = []
+    country_names = []
     for feature in mapdata['features']:
         
         # Format the country name
@@ -261,6 +262,7 @@ def get_countries_of_origin(
         if country_name in countries:
             idx = formatted_columns.index(country_name)
             color.append(df.iloc[0, idx])
+            country_names.append(country_name)
             
         # Elif the continent is in the dataframe, use the listed value for "Autres lieux de naissance..."
         # There are issue with how we SHOULD represent this data, so for now it's not used
@@ -277,6 +279,7 @@ def get_countries_of_origin(
 
         # Else we don't plot the country (e.g. for Antarctica)
         else:
-            color.append(None)
+            color.append(0)
+            country_names.append(country_name)
 
-    return color
+    return color, country_names

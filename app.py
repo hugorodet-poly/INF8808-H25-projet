@@ -8,7 +8,8 @@ import pandas as pd
 from src.maps import get_districts_mapdata, get_boroughs_mapdata, get_countries_mapdata
 from src.preprocess import get_demographics_data, get_elections_data, get_boroughs_data
 from src.viz_guillaume import stacked_bar_chart_most, stacked_bar_chart_least, immigrants_map, linguistic_map
-from src.viz_hugo import get_montreal_boroughs_map
+from src.viz_hugo import get_montreal_boroughs_map, get_world_immigrants_map
+
 # Import Sidney's visualizations
 from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
 from src.viz_sid import get_immigrant_voting_scatter, get_party_income_relation
@@ -32,7 +33,7 @@ fig_lower_median_immigration = get_lower_median_immigration_waffle()
 fig_immigrant_voting = get_immigrant_voting_scatter()
 fig_most = stacked_bar_chart_most()
 fig_least = stacked_bar_chart_least()
-default_world_map_fig = get_countries_of_origin_map('Ville de Montréal')
+montreal_boroughs_map = get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df)
 
 # ---------- Dash App Setup -----------
 app = dash.Dash(
@@ -169,15 +170,15 @@ app.layout = html.Div([
         # 4. World Immigration Origins
         html.Div([
             html.H2('Countries of Origin', className='section-title'),
-            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Select a borough from the dropdown menu below.'),
+            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Click on a borough to see the countries of origin.'),
+            html.P(id='current-borough', children='Ville de Montréal'),
             
-            dcc.Dropdown(
-                id='borough-dropdown',
-                options=[{'label': b, 'value': b} for b in borough_df['Arrondissement'].unique() if b],
-                value='Ville de Montréal',
-                className='custom-dropdown'
-            ),
-            dcc.Graph(id='world-map', figure=default_world_map_fig, className='graph')
+            html.Div(className='flex-row', children=[
+                html.Div(className='four columns', children=[ # Montreal Map
+                    dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
+                html.Div(className='eight columns', children=[ # World map
+                    dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
+            
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -223,6 +224,14 @@ def update_countries_of_origin_map(borough_name):
 def update_party_income_chart(party):
     fig = get_party_income_relation(party)
     return dcc.Graph(figure=fig, className='graph')
+
+@app.callback(
+    Output(component_id='world-immigrants-map', component_property='figure'),
+    Output(component_id='current-borough', component_property='children'),
+    Input(component_id='montreal-immigrants-map', component_property='clickData'))
+def update_world_immigrants_map(clickdata):
+    fig, borough = get_world_immigrants_map(montreal_boroughs_mapdata, world_mapdata, borough_df, clickdata)
+    return fig, borough
 
 if __name__ == '__main__':
     app.run(debug=True)
