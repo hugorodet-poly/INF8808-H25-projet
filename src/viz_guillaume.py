@@ -281,8 +281,8 @@ def linguistic_map(df, map_data):
         title_x=0.5,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
-        height=768,
-        width=1366,
+        height=400,
+        width=600,
     )
     fig.data[0].colorbar = dict(ticksuffix="%")
     return fig
@@ -311,8 +311,8 @@ def immigrants_map(df, map_data):
                       title_x=0.5,
                       title_yanchor='top',
                       title_font=dict(size=21, weight='bold'),
-                      height=768,
-                      width=1366,
+                      height=400,
+                      width=600,
                       )
     fig.data[0].colorbar = dict(ticksuffix="%")
     return fig
