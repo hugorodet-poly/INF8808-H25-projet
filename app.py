@@ -44,7 +44,6 @@ server = app.server
 app.title = 'Electoral Demographics Analysis'
 
 # ---------- Layout --------------------
-app.layout = html.Div(className='body-wrapper', children='HELLO WORLD')
 app.layout = html.Div([
 
     # Floating Navbar
@@ -73,7 +72,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(figure=None, className='graph')
+            dcc.Graph(className='graph')
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -82,7 +81,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Language Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-            dcc.Graph(figure=None, className='graph')
+            dcc.Graph(className='graph')
         ], className='card'),
 
         html.Hr(className='section-divider'),
