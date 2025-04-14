@@ -38,7 +38,7 @@ montreal_boroughs_map = get_montreal_boroughs_map(montreal_boroughs_mapdata, bor
 # ---------- Dash App Setup -----------
 app = dash.Dash(
     __name__,
-    suppress_callback_exceptions=True,
+    suppress_callback_exceptions=False,
     assets_folder='assets',
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
