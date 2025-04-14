@@ -38,7 +38,7 @@ app = dash.Dash(
     __name__,
     suppress_callback_exceptions=False,
     assets_folder='assets',
-    #meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
+    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
 server = app.server
 app.title = 'Electoral Demographics Analysis'
