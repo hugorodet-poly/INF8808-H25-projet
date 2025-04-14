@@ -73,17 +73,17 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(figure=immigrants_map_fig, className='graph')
+            dcc.Graph(figure=None, className='graph')
         ], className='card'),
 
         html.Hr(className='section-divider'),
 
         # 2. Language Distribution (Montreal)
-        # html.Div([
-        #     html.H2('Language Distribution in Montreal', className='section-title'),
-        #     html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-        #     dcc.Graph(figure=linguistic_map_fig, className='graph')
-        # ], className='card'),
+        html.Div([
+            html.H2('Language Distribution in Montreal', className='section-title'),
+            html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
+            dcc.Graph(figure=None, className='graph')
+        ], className='card'),
 
         html.Hr(className='section-divider'),
 
