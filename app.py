@@ -44,7 +44,7 @@ server = app.server
 app.title = 'Electoral Demographics Analysis'
 
 # ---------- Layout --------------------
-app.layout = html.Div(className='body-wrapper', children='HELLOW ORLD')
+app.layout = html.Div(className='body-wrapper', children='HELLO WORLD')
 # app.layout = html.Div([
 
 #     # Floating Navbar
