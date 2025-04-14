@@ -299,12 +299,12 @@ def immigrants_map(df, map_data):
     district_mapping = {row['Circonscription']: i for i, row in df.iterrows()}
     color = [None] * len(map_data['features'])
 
-    for i, feature in enumerate(map_data['features']):
-        district_name = feature['properties']['NM_CEP']
-        district_name = district_name.replace("A(c)", "e")
-        district_name = district_name.replace("AC/ce", "ace")
-        if district_name in district_mapping and district_name in circo_subsets['Montréal']:
-            color[i] = df.loc[district_mapping[district_name], "Immigrants"]
+    # for i, feature in enumerate(map_data['features']):
+    #     district_name = feature['properties']['NM_CEP']
+    #     district_name = district_name.replace("A(c)", "e")
+    #     district_name = district_name.replace("AC/ce", "ace")
+    #     if district_name in district_mapping and district_name in circo_subsets['Montréal']:
+    #         color[i] = df.loc[district_mapping[district_name], "Immigrants"]
 
     fig = get_map(map_data, color, zoom='montreal')
     fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
@@ -314,5 +314,5 @@ def immigrants_map(df, map_data):
                       height=400,
                       width=600,
                       )
-    fig.data[0].colorbar = dict(ticksuffix="%")
+    # fig.data[0].colorbar = dict(ticksuffix="%")
     return fig
