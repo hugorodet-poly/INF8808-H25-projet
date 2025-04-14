@@ -307,10 +307,10 @@ def immigrants_map(df, map_data):
     #         color[i] = df.loc[district_mapping[district_name], "Immigrants"]
 
     fig = get_map(map_data, color, zoom='montreal')
-    fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
-                      title_x=0.5,
-                      title_yanchor='top',
-                      title_font=dict(size=21, weight='bold'),
+    fig.update_layout(#title_text='Population immigrante des circonscriptions de Montréal',
+                      #title_x=0.5,
+                      #title_yanchor='top',
+                      #title_font=dict(size=21, weight='bold'),
                       height=400,
                       width=600,
                       )
