@@ -77,7 +77,7 @@ def get_map(
             geojson=map_data,
             featureidkey='properties.ID',
             locations=[f['properties']['ID'] for f in map_data['features']],
-            #z=color,
+            z=color,
             #colorscale='Reds',
             #**kwargs
             ))
