@@ -235,4 +235,4 @@ def update_world_immigrants_map(clickdata):
     return fig, borough
 
 if __name__ == '__main__':
-    app.run(debug=False, port=8050)
+    app.run(debug=False)
