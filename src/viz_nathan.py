@@ -31,16 +31,35 @@ def create_pivot_data(df):
                    columns='Langue', 
                    values='Taux de vote')
 
+def generate_districts_annotation(districts_dict, lang1, lang2):
+    text = "<b>Circonscriptions principalement...</b><br><br>"
+    text += f"<b><span style='color:blue'>{lang1}:</span></b><br>"
+    for d in districts_dict[lang1]:
+        text += f"<span style='color:blue'>• {d}</span><br>"
+    text += "<br>"
+    text += f"<b><span style='color:red'>{lang2}:</span></b><br>"
+    for d in districts_dict[lang2]:
+        text += f"<span style='color:red'>• {d}</span><br>"
+    return text
 
 # Get demographics and elections data
 df_demo = get_demographics_data()
 df_elec = get_elections_data()
 
 # Get distict names with most francophones, anglophones, bilinguals and neither
-districts_fr = get_district_names(df_demo, 5, "Francais")
-districts_en = get_district_names(df_demo, 5, "Anglais")
-districts_both = get_district_names(df_demo, 5, "Francais et anglais (pourcentage)")
-districts_neither = get_district_names(df_demo, 5, "Ni l'anglais ni le francais (pourcentage)")
+NUM_DISTRICTS = 4
+districts_fr = get_district_names(df_demo, NUM_DISTRICTS, "Francais")
+districts_en = get_district_names(df_demo, NUM_DISTRICTS, "Anglais")
+districts_both = get_district_names(df_demo, NUM_DISTRICTS, "Francais et anglais (pourcentage)")
+districts_neither = get_district_names(df_demo, NUM_DISTRICTS, "Ni l'anglais ni le francais (pourcentage)")
+
+# Create districts dictionary
+districts_dict = {
+    'Francophones': districts_fr,
+    'Anglophones': districts_en,
+    'Allophones': districts_both,
+    'Ni francophones ni anglophones': districts_neither
+}
 
 # Filter and sort the elections data for the selected districts and parties
 parties = ['C.A.Q.-E.F.L.', 'P.C.Q-E.E.D.', 'P.L.Q./Q.L.P.', 'P.Q.', 'Q.S.']
@@ -70,16 +89,14 @@ df_elec = df_elec[['Langue', 'Parti politique', 'Taux de vote']]
 
 
 # Create vizualization
-def create_interactive_connected_dot_plot(df):
+def create_interactive_connected_dot_plot(df, districts_dict):
     # Get unique language values
     languages = df['Langue'].unique()
-    
+    # Create a figure
     fig = go.Figure()
-    
     # Create traces for each possible combination, avoiding duplicates
     visible_traces = {}
     combinations = []
-    
     # Create unique combinations without duplicates
     processed_pairs = set()
     for lang1 in languages:
@@ -94,15 +111,12 @@ def create_interactive_connected_dot_plot(df):
                         combinations.insert(0, sorted_langs)
                     else:
                         combinations.append(sorted_langs)
-    
     # Create pivot table
     df_pivot = create_pivot_data(df)
-    
     # Create traces for all combinations
     for lang1, lang2 in combinations:
         key = f"{lang1}_vs_{lang2}"
         traces = []
-        
         # Add connecting lines
         for parti in df_pivot.index:
             traces.append(go.Scatter(
@@ -113,7 +127,6 @@ def create_interactive_connected_dot_plot(df):
                 showlegend=False,
                 visible=(set([lang1, lang2]) == {'Anglophones', 'Francophones'})
             ))
-            
             # Add invisible point for gap hover
             ecart = abs(df_pivot.loc[parti, lang1] - df_pivot.loc[parti, lang2])
             traces.append(go.Scatter(
@@ -126,52 +139,62 @@ def create_interactive_connected_dot_plot(df):
                 showlegend=False,
                 visible=(set([lang1, lang2]) == {'Anglophones', 'Francophones'})
             ))
-        
         # Add points for first language
         traces.append(go.Scatter(
             x=df_pivot[lang1],
             y=df_pivot.index,
-            name=f'Quartiers principalement {lang1.lower()}',
+            name=f'Circonscriptions principalement {lang1.lower()}',
             mode='markers',
             marker=dict(color='blue', size=12, line=dict(color='black', width=1)),
             text=[f"{lang1} | Votes : {v:.2f}%" for v in df_pivot[lang1]],
             hoverinfo="text",
             visible=(set([lang1, lang2]) == {'Anglophones', 'Francophones'})
         ))
-        
         # Add points for second language
         traces.append(go.Scatter(
             x=df_pivot[lang2],
             y=df_pivot.index,
-            name=f'Quartiers principalement {lang2.lower()}',
+            name=f'Circonscriptions principalement {lang2.lower()}',
             mode='markers',
             marker=dict(color='red', size=12, line=dict(color='black', width=1)),
             text=[f"{lang2} | Votes : {v:.2f}%" for v in df_pivot[lang2]],
             hoverinfo="text",
             visible=(set([lang1, lang2]) == {'Anglophones', 'Francophones'})
         ))
-        
         visible_traces[key] = traces
         for trace in traces:
             fig.add_trace(trace)
-    
     # Create dropdown menu
     dropdown_buttons = []
     for key in visible_traces.keys():
         lang1, lang2 = key.split("_vs_")
         visibility = [False] * len(fig.data)
-        
         start_idx = list(visible_traces.keys()).index(key) * len(visible_traces[key])
         for i in range(len(visible_traces[key])):
             visibility[start_idx + i] = True
-            
+        annotation_text = generate_districts_annotation(districts_dict, lang1, lang2)
         dropdown_buttons.append(dict(
-            args=[{"visible": visibility}],
+            args=[
+                {"visible": visibility},
+                {"annotations": [dict(
+                    text=annotation_text,
+                    align='left',
+                    showarrow=False,
+                    xref='paper',
+                    yref='paper',
+                    x=1.02,
+                    y=0.5,
+                    xanchor='left',
+                    yanchor='middle',
+                    font=dict(size=12),
+                    bgcolor='rgba(255,255,255,0.8)',
+                    bordercolor='black',
+                    borderwidth=1
+                )]}
+            ],
             label=f"{lang1} vs {lang2}",
             method="update"
         ))
-    
-    # Rest of the layout remains the same as before
     fig.update_layout(
         updatemenus=[
             dict(
@@ -198,7 +221,9 @@ def create_interactive_connected_dot_plot(df):
             showticklabels=True,
             dtick=10,
             ticks='outside',
-            tickcolor='black'
+            tickcolor='black',
+            autorange=False,  # Set autorange to False to define a fixed range
+            range=[0, 60]
         ),
         yaxis=dict(
             title='Principaux partis politiques québécois',
@@ -210,17 +235,38 @@ def create_interactive_connected_dot_plot(df):
             tickcolor='black',
             autorange="reversed"
         ),
-        margin=dict(l=150, r=40, b=50, t=120),
+        margin=dict(l=150, r=250, b=50, t=120),
         legend=dict(font_size=10, yanchor='bottom', xanchor='right'),
-        width=1000,
+        width=1165,
         height=600,
         paper_bgcolor='white',
         plot_bgcolor='rgba(192, 203, 238, 0.5)',
         hovermode='closest'
     )
-    
+    # Add Districts annotation
+    initial_lang1, initial_lang2 = 'Anglophones', 'Francophones'
+    initial_annotation = generate_districts_annotation(districts_dict, initial_lang1, initial_lang2)
+    fig.update_layout(
+        annotations=[
+            dict(
+                text=initial_annotation,
+                align='left',
+                showarrow=False,
+                xref='paper',
+                yref='paper',
+                x=1.02,
+                y=0.5,
+                xanchor='left',
+                yanchor='middle',
+                font=dict(size=12),
+                bgcolor='rgba(255,255,255,0.8)',
+                bordercolor='black',
+                borderwidth=1
+            )
+        ]
+    )
     return fig
 
 # Create and show the plot
-fig = create_interactive_connected_dot_plot(df_elec)
+fig = create_interactive_connected_dot_plot(df_elec, districts_dict)
 fig.show()
