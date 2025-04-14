@@ -1,8 +1,6 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output
-import plotly.graph_objects as go
-import pandas as pd
 
 # Import your custom modules
 from src.maps import get_districts_mapdata, get_boroughs_mapdata, get_countries_mapdata
@@ -40,10 +38,10 @@ app = dash.Dash(
     __name__,
     suppress_callback_exceptions=False,
     assets_folder='assets',
-    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
+    #meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
-app.title = 'Electoral Demographics Analysis'
 server = app.server
+app.title = 'Electoral Demographics Analysis'
 
 # ---------- Layout --------------------
 app.layout = html.Div([
