@@ -4,8 +4,7 @@ import numpy as np
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 
-from src.maps import get_map, get_countries_mapdata, get_boroughs_mapdata, get_countries_of_origin
-from src.preprocess import get_boroughs_data
+from src.maps import get_map, get_countries_of_origin
 
 # get the map of montreal
 def get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df):

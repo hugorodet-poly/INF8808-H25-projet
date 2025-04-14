@@ -1,19 +1,17 @@
 import pandas as pd
 import plotly.graph_objects as go
 
-from src.maps import get_map, get_districts_mapdata, circo_subsets
-from src.preprocess import get_elections_data, get_demographics_data
+from src.maps import get_map, circo_subsets
 
 
-def stacked_bar_chart_most():
-    df1 = get_demographics_data()
+def stacked_bar_chart_most(df1, df):
+    """df1 = demographics data
+    df = elections data"""
 
     df1['Immigrants'] = pd.to_numeric(df1['Immigrants'])
 
     y_data = df1.nlargest(10, 'Immigrants').set_index('Circonscription')['Immigrants'].keys().tolist()
     y_data.reverse()
-
-    df = get_elections_data()
 
     top_labels = df['abreviationPartiPolitique'].value_counts().nlargest(5).keys().tolist()
     top_labels.append('Others')
@@ -132,15 +130,15 @@ def stacked_bar_chart_most():
     return fig
 
 
-def stacked_bar_chart_least():
-    df1 = get_demographics_data()
+def stacked_bar_chart_least(df1, df):
+    """df1 = demographics data
+    df = elections data"""
 
     df1['Immigrants'] = pd.to_numeric(df1['Immigrants'])
 
     y_data = df1.nsmallest(10, 'Immigrants').set_index('Circonscription')['Immigrants'].keys().tolist()
     y_data.reverse()
 
-    df = get_elections_data()
 
     top_labels = df['abreviationPartiPolitique'].value_counts().nlargest(5).keys().tolist()
     top_labels.append('Others')
@@ -259,9 +257,8 @@ def stacked_bar_chart_least():
     return fig
 
 
-def linguistic_map():
-    df = get_demographics_data()
-    map_data = get_districts_mapdata()
+def linguistic_map(df, map_data):
+    """df = demographics data, map_data for districts"""
 
     # mask = get_subset_mask(df['Circonscription'], circo_subsets['Montréal'])
     # color = df['Immigrants'].values
@@ -291,9 +288,8 @@ def linguistic_map():
     return fig
 
 
-def immigrants_map():
-    df = get_demographics_data()
-    map_data = get_districts_mapdata()
+def immigrants_map(df, map_data):
+    """df = demographics data, map_data for districts"""
 
     # mask = get_subset_mask(df['Circonscription'], circo_subsets['Montréal'])
     # color = df['Immigrants'].values
