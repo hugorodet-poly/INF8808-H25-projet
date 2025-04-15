@@ -315,4 +315,16 @@ def immigrants_map(df, map_data):
     #                   width=600,
     #                   )
     # fig.data[0].colorbar = dict(ticksuffix="%")
+    
+    fig.update_layout(
+        title=None,
+        map=dict(
+            style='white-bg',
+            center=dict(lat=45, lon=16), 
+            zoom=0.63),
+        margin=dict(l=0, r=100, t=50, b=10),
+        width=900, height=600)
+    
+    fig.update_mapboxes(
+        style='white-bg')
     return fig
