@@ -78,33 +78,33 @@ def get_map(
             featureidkey='properties.ID',
             locations=[f['properties']['ID'] for f in map_data['features']],
             z=color,
-            #colorscale='Reds',
-            #**kwargs
+            colorscale='Reds',
+            **kwargs
             ))
     
-    # # Set the zoom level
-    # zoom = unidecode(zoom).lower()
-    # if zoom == 'world':
-    #     pass # Default zoom, maybe change it laters
-    # elif zoom == 'quebec':
-    #     fig.update_layout(
-    #         map=dict(center=dict(lat=54, lon=-68.5), zoom=3.65),
-    #         width=600, height=800)
-    # elif zoom == 'montreal':
-    #     fig.update_layout(
-    #         map=dict(center=dict(lat=45.53, lon=-73.67), zoom=9.5),
-    #         width=600, height=800)
-    # elif zoom == 'auto':
-    #     pass
-    # else:
-    #     raise ValueError('Invalid zoom value. Use "auto", "quebec" or "montreal".')  
+    # Set the zoom level
+    zoom = unidecode(zoom).lower()
+    if zoom == 'world':
+        pass # Default zoom, maybe change it laters
+    elif zoom == 'quebec':
+        fig.update_layout(
+            map=dict(center=dict(lat=54, lon=-68.5), zoom=3.65),
+            width=600, height=800)
+    elif zoom == 'montreal':
+        fig.update_layout(
+            map=dict(center=dict(lat=45.53, lon=-73.67), zoom=9.5),
+            width=600, height=800)
+    elif zoom == 'auto':
+        pass
+    else:
+        raise ValueError('Invalid zoom value. Use "auto", "quebec" or "montreal".')  
     
-    # # Make sure the coordinates of the GeoJSON and plotly chrolopleth correspond
-    # fig.update_geos(
-    #     fitbounds="locations",
-    #     projection=dict(
-    #         type="conic conformal",
-    #         parallels=[50, 46]))
+    # Make sure the coordinates of the GeoJSON and plotly chrolopleth correspond
+    fig.update_geos(
+        fitbounds="locations",
+        projection=dict(
+            type="conic conformal",
+            parallels=[50, 46]))
       
     return fig
 
