@@ -83,12 +83,18 @@ app.layout = html.Div([
         ], className='card'),
         
         # 1. Immigration Map (Montreal)
-        # html.Div([
-        #     html.H2('Immigration Distribution in Montreal', className='section-title'),
-        #     html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-        #     html.Div(className='row', children=[
-        #         dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})])
-        # ], className='card'),
+        html.Div([
+            html.H2('Countries of Origin', className='section-title'),
+            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Click on a borough to see the countries of origin.'),
+            html.P(id='current-borough', children='Ville de Montréal'),
+            
+        html.Div([
+            html.H2('Immigration Distribution in Montreal', className='section-title'),
+            html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
+            html.Div(className='row', children=[
+                dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})])
+        ], className='card'),
+    ])
 
         html.Hr(className='section-divider'),
 
