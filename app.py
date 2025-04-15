@@ -1,8 +1,6 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output
-import plotly.graph_objects as go
-import pandas as pd
 
 # Import your custom modules
 from src.maps import get_districts_mapdata, get_boroughs_mapdata, get_countries_mapdata
@@ -13,7 +11,6 @@ from src.viz_hugo import get_montreal_boroughs_map, get_world_immigrants_map
 # Import Sidney's visualizations
 from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
 from src.viz_sid import get_immigrant_voting_scatter, get_party_income_relation
-from src.viz_countries import get_countries_of_origin_map
 
 # ---------- Data Loading -------------
 demographics_data = get_demographics_data()
@@ -21,27 +18,29 @@ borough_df = get_boroughs_data()
 districts_mapdata = get_districts_mapdata()
 montreal_boroughs_mapdata = get_boroughs_mapdata()
 world_mapdata = get_countries_mapdata()
+election_data = get_elections_data()
 
 # ---------- Pre-generate Figures -----
-immigrants_map_fig = immigrants_map()
-linguistic_map_fig = linguistic_map()
+immigrants_map_fig = immigrants_map(demographics_data, districts_mapdata)
+linguistic_map_fig = linguistic_map(demographics_data, districts_mapdata)
 fig_quebec = get_quebec_waffle_chart()
 fig_montreal = get_montreal_waffle_chart()
 fig_hypothetical = get_hypothetical_waffle_chart()
 fig_upper_median_immigration = get_upper_median_immigration_waffle()
 fig_lower_median_immigration = get_lower_median_immigration_waffle()
-fig_immigrant_voting = get_immigrant_voting_scatter()
-fig_most = stacked_bar_chart_most()
-fig_least = stacked_bar_chart_least()
+fig_immigrant_voting = get_immigrant_voting_scatter(demographics_data, election_data)
+fig_most = stacked_bar_chart_most(demographics_data, election_data)
+fig_least = stacked_bar_chart_least(demographics_data, election_data)
 montreal_boroughs_map = get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df)
 
 # ---------- Dash App Setup -----------
 app = dash.Dash(
     __name__,
-    suppress_callback_exceptions=True,
+    suppress_callback_exceptions=False,
     assets_folder='assets',
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
+server = app.server
 app.title = 'Electoral Demographics Analysis'
 
 # ---------- Layout --------------------
@@ -211,18 +210,11 @@ app.layout = html.Div([
 
 # ---------- Callbacks ----------
 @app.callback(
-    Output('world-map', 'figure'),
-    Input('borough-dropdown', 'value')
-)
-def update_countries_of_origin_map(borough_name):
-    return get_countries_of_origin_map(borough_name)
-
-@app.callback(
     Output('income-chart-container', 'children'),
     Input('party-dropdown', 'value')
 )
 def update_party_income_chart(party):
-    fig = get_party_income_relation(party)
+    fig = get_party_income_relation(demographics_data, election_data, party)
     return dcc.Graph(figure=fig, className='graph')
 
 @app.callback(
@@ -234,4 +226,4 @@ def update_world_immigrants_map(clickdata):
     return fig, borough
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

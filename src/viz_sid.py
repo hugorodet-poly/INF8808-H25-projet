@@ -1,8 +1,6 @@
 import plotly.graph_objects as go
 import numpy as np
-import pandas as pd
 import plotly.express as px
-from src.preprocess import get_demographics_data, get_elections_data, get_lists_of_circonscription_according_to_winning_party
 from src.preprocess import get_participation_per_district, group_elections_data_as_party, get_elections_data_by_winning_party
 from src.visual_helper import set_customdata_montreal, set_customdata_Quebec
 
@@ -257,12 +255,10 @@ def get_lower_median_immigration_waffle():
     fig.update_yaxes(showticklabels=False)
 
     return fig
-def get_median_data():
+
+def get_median_data(df_demographics, df_election):
     total_cir = 125
-    df_demographics = get_demographics_data()
-    columns_of_interests = ['Immigrants']
     immigration_rate = df_demographics[['Circonscription', 'Immigrants']]
-    df_election = get_elections_data()
     df_election = get_elections_data_by_winning_party(df_election)
 
     df_election.rename(columns={'nomCirconscription': 'Circonscription'}, inplace=True)
@@ -284,13 +280,12 @@ def get_median_data():
     seats_lower.rename(columns={'Circonscription': 'Seats'}, inplace=True)
     seats_lower.sort_values(by=['Seats'], ascending=False, inplace=True)
     return seats_higher, seats_lower
+
 ################## end of Waffle charts ##################
-def get_immigrant_voting_scatter():
+def get_immigrant_voting_scatter(df_demographics, df_election):
     """Create a scatter plot showing relationship between immigration percentage and voter participation"""
-    df_demographics = get_demographics_data()
     immigration_rate = df_demographics[['Circonscription', 'Immigrants']]
     
-    df_election = get_elections_data()
     df_election = get_participation_per_district(df_election)
     
     df_election.rename(columns={'nomCirconscription': 'Circonscription'}, inplace=True)
@@ -318,12 +313,10 @@ def get_immigrant_voting_scatter():
     
     return fig
 
-def get_party_income_relation(party='Q.S.'):
+def get_party_income_relation(df_demographics, df_election,  party='Q.S.'):
     """Create a scatter plot showing relationship between median household income and votes for a specific party"""
-    df_demographics = get_demographics_data()
     income_data = df_demographics[['Circonscription', "Revenu median des menages $"]]
     
-    df_election = get_elections_data()
     df_election_filtered = group_elections_data_as_party(df_election, None, party)
     
     df_election_filtered.rename(columns={'nomCirconscription': 'Circonscription'}, inplace=True)

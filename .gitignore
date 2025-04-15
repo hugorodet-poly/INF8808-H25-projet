@@ -1,5 +1,7 @@
-assets/data/*
-assets/maps/*
+assets/data/borough_reports
+assets/data/immigration_extracted_csvs
+assets/data/resultats.json
+
 .html
 .csv
 borough_reports

@@ -1,6 +1,5 @@
 import pandas as pd
 import plotly.graph_objects as go
-from preprocess import get_elections_data, get_demographics_data
 
 def get_district_names(df, num, criteria):
     """
@@ -42,51 +41,50 @@ def generate_districts_annotation(districts_dict, lang1, lang2):
         text += f"<span style='color:red'>• {d}</span><br>"
     return text
 
-# Get demographics and elections data
-df_demo = get_demographics_data()
-df_elec = get_elections_data()
 
-# Get distict names with most francophones, anglophones, bilinguals and neither
-NUM_DISTRICTS = 4
-districts_fr = get_district_names(df_demo, NUM_DISTRICTS, "Francais")
-districts_en = get_district_names(df_demo, NUM_DISTRICTS, "Anglais")
-districts_both = get_district_names(df_demo, NUM_DISTRICTS, "Francais et anglais (pourcentage)")
-districts_neither = get_district_names(df_demo, NUM_DISTRICTS, "Ni l'anglais ni le francais (pourcentage)")
+def prepare_dataframes(df_demo, df_elec):
+    # Get distict names with most francophones, anglophones, bilinguals and neither
+    NUM_DISTRICTS = 4
+    districts_fr = get_district_names(df_demo, NUM_DISTRICTS, "Francais")
+    districts_en = get_district_names(df_demo, NUM_DISTRICTS, "Anglais")
+    districts_both = get_district_names(df_demo, NUM_DISTRICTS, "Francais et anglais (pourcentage)")
+    districts_neither = get_district_names(df_demo, NUM_DISTRICTS, "Ni l'anglais ni le francais (pourcentage)")
 
-# Create districts dictionary
-districts_dict = {
-    'Francophones': districts_fr,
-    'Anglophones': districts_en,
-    'Allophones': districts_both,
-    'Ni francophones ni anglophones': districts_neither
-}
+    # Create districts dictionary
+    districts_dict = {
+        'Francophones': districts_fr,
+        'Anglophones': districts_en,
+        'Allophones': districts_both,
+        'Ni francophones ni anglophones': districts_neither
+    }
 
-# Filter and sort the elections data for the selected districts and parties
-parties = ['C.A.Q.-E.F.L.', 'P.C.Q-E.E.D.', 'P.L.Q./Q.L.P.', 'P.Q.', 'Q.S.']
-df_elec_fr = df_elec[(df_elec['nomCirconscription'].isin(districts_fr)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
-df_elec_fr = df_elec_fr.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
-df_elec_en = df_elec[(df_elec['nomCirconscription'].isin(districts_en)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
-df_elec_en = df_elec_en.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
-df_elec_both = df_elec[(df_elec['nomCirconscription'].isin(districts_both)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
-df_elec_both = df_elec_both.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
-df_elec_neither = df_elec[(df_elec['nomCirconscription'].isin(districts_neither)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
-df_elec_neither = df_elec_neither.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
+    # Filter and sort the elections data for the selected districts and parties
+    parties = ['C.A.Q.-E.F.L.', 'P.C.Q-E.E.D.', 'P.L.Q./Q.L.P.', 'P.Q.', 'Q.S.']
+    df_elec_fr = df_elec[(df_elec['nomCirconscription'].isin(districts_fr)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
+    df_elec_fr = df_elec_fr.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
+    df_elec_en = df_elec[(df_elec['nomCirconscription'].isin(districts_en)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
+    df_elec_en = df_elec_en.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
+    df_elec_both = df_elec[(df_elec['nomCirconscription'].isin(districts_both)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
+    df_elec_both = df_elec_both.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
+    df_elec_neither = df_elec[(df_elec['nomCirconscription'].isin(districts_neither)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
+    df_elec_neither = df_elec_neither.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
 
-# Get the average votes for each party
-df_elec_fr = get_average_votes(df_elec_fr)
-df_elec_en = get_average_votes(df_elec_en)
-df_elec_both = get_average_votes(df_elec_both)
-df_elec_neither = get_average_votes(df_elec_neither)
+    # Get the average votes for each party
+    df_elec_fr = get_average_votes(df_elec_fr)
+    df_elec_en = get_average_votes(df_elec_en)
+    df_elec_both = get_average_votes(df_elec_both)
+    df_elec_neither = get_average_votes(df_elec_neither)
 
-# Add the language column to each dataframe
-df_elec_fr['Langue'] = 'Francophones'
-df_elec_en['Langue'] = 'Anglophones'
-df_elec_both['Langue'] = 'Allophones'
-df_elec_neither['Langue'] = 'Ni francophones ni anglophones'
-df_elec = pd.concat([df_elec_fr, df_elec_en, df_elec_both, df_elec_neither], ignore_index=True)
-df_elec = df_elec.rename(columns={'abreviationPartiPolitique': 'Parti politique', 'tauxVote': 'Taux de vote'})
-df_elec = df_elec[['Langue', 'Parti politique', 'Taux de vote']]
+    # Add the language column to each dataframe
+    df_elec_fr['Langue'] = 'Francophones'
+    df_elec_en['Langue'] = 'Anglophones'
+    df_elec_both['Langue'] = 'Allophones'
+    df_elec_neither['Langue'] = 'Ni francophones ni anglophones'
+    df_elec = pd.concat([df_elec_fr, df_elec_en, df_elec_both, df_elec_neither], ignore_index=True)
+    df_elec = df_elec.rename(columns={'abreviationPartiPolitique': 'Parti politique', 'tauxVote': 'Taux de vote'})
+    df_elec = df_elec[['Langue', 'Parti politique', 'Taux de vote']]
 
+    return districts_dict, df_elec
 
 # Create vizualization
 def create_interactive_connected_dot_plot(df, districts_dict):
@@ -266,7 +264,3 @@ def create_interactive_connected_dot_plot(df, districts_dict):
         ]
     )
     return fig
-
-# Create and show the plot
-fig = create_interactive_connected_dot_plot(df_elec, districts_dict)
-fig.show()
