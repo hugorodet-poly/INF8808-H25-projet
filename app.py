@@ -86,7 +86,8 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig)
+            html.Div([
+                dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})])
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -233,4 +234,4 @@ def update_montreal_immigrants_map(void):
     return immigrants_map(demographics_data, districts_mapdata)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
