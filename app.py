@@ -73,7 +73,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            html.Iframe(src="/assets/immigration_map.html", width="600", height="400", className='iframe'),
+            html.Iframe(src="/assets/immigration_map.html", width="100%", height="100%", className='iframe'),
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -82,7 +82,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Language Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-            html.Iframe(src="/assets/immigration_map.html", width="600", height="400", className='iframe'),
+            html.Iframe(src="/assets/linguistic_map.html", width="600", height="400", className='iframe'),
         ], className='card'),
 
         html.Hr(className='section-divider'),
