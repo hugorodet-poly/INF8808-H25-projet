@@ -277,14 +277,13 @@ def linguistic_map(df, map_data):
 
     fig = get_map(map_data, color, zoom='montreal')
     fig.update_layout(
-        title_text="Proportion de personnes parlant ni le français ni l'anglais dans les circonscriptions de Montréal",
-        title_x=0.1,
+        #title_text="Proportion de personnes parlant ni le français ni l'anglais dans les circonscriptions de Montréal",
+        title_x=0,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
         height=600,
-        width=1300,
-        margin=dict(t=50, b=10, l=0, r=0),
-    )
+        width=1340,
+        margin=dict(t=0, b=10, l=0, r=0),)
     fig.data[0].colorbar = dict(ticksuffix="%")
     return fig
 
@@ -307,14 +306,14 @@ def immigrants_map(df, map_data):
         if district_name in district_mapping and district_name in circo_subsets['Montréal']:
             color[i] = df.loc[district_mapping[district_name], "Immigrants"]
 
-    fig = get_map(map_data, None, zoom='montreal')
-    fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
-                      title_x=0.1,
-                      title_yanchor='top',
-                      title_font=dict(size=21, weight='bold'),
-                      height=600,
-                      width=1500,
-                      margin=dict(t=50, b=10, l=0, r=0),
-                      )
+    fig = get_map(map_data, color, zoom='montreal')
+    fig.update_layout(
+        #title_text='Population immigrante des circonscriptions de Montréal',
+        title_x=0,
+        title_yanchor='top',
+        title_font=dict(size=21, weight='bold'),
+        height=600,
+        width=1340,
+        margin=dict(t=0, b=10, l=0, r=0),)
     fig.data[0].colorbar = dict(ticksuffix="%")
     return fig

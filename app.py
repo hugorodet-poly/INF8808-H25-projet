@@ -246,4 +246,4 @@ def update_language_dot_plot(lang_option):
     
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
