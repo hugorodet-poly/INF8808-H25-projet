@@ -77,7 +77,7 @@ app.layout = html.Div([
             
             html.Div(className='flex-row', children=[
                 html.Div(className='four columns', children=[ # Montreal Map
-                    dcc.Graph(id='boroughs-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
+                    dcc.Graph(id='boroughs-immigrants-map', style={'justify': 'center'})]),
                 html.Div(className='eight columns', children=[ # World map
                     dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
         ], className='card'),
