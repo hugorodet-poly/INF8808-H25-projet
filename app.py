@@ -77,7 +77,7 @@ app.layout = html.Div([
             
             html.Div(className='flex-row', children=[
                 html.Div(className='four columns', children=[ # Montreal Map
-                    dcc.Graph(id='boroughs-immigrants-map', style={'justify': 'center'})]),
+                    dcc.Graph(id='boroughs-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})]),
                 html.Div(className='eight columns', children=[ # World map
                     dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
         ], className='card'),
@@ -87,7 +87,7 @@ app.layout = html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
             html.Div(className='eight columns', children=[
-                dcc.Graph(id='districts-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})])
+                dcc.Graph(id='districts-immigrants-map', style={'justify': 'center'})])
         ], className='card'),
 
         html.Hr(className='section-divider'),
