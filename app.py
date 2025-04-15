@@ -68,11 +68,26 @@ app.layout = html.Div([
 
     # Main container
     html.Div([
+
+        # 4. World Immigration Origins
+        html.Div([
+            html.H2('Countries of Origin', className='section-title'),
+            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Click on a borough to see the countries of origin.'),
+            html.P(id='current-borough', children='Ville de Montréal'),
+            
+            html.Div(className='flex-row', children=[
+                html.Div(className='four columns', children=[ # Montreal Map
+                    dcc.Graph(id='boroughs-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
+                html.Div(className='eight columns', children=[ # World map
+                    dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
+        ], className='card'),
+        
         # 1. Immigration Map (Montreal)
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(figure=immigrants_map_fig, className='graph')
+            html.Div(className='eight columns', children=[
+                dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})])
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -85,7 +100,7 @@ app.layout = html.Div([
         ], className='card'),
 
         html.Hr(className='section-divider'),
-
+        
         # 3. Electoral Representation
         html.Div([
             html.H2('Electoral Representation Analysis', className='section-title'),
@@ -166,19 +181,6 @@ app.layout = html.Div([
 
         html.Hr(className='section-divider'),
 
-        # 4. World Immigration Origins
-        html.Div([
-            html.H2('Countries of Origin', className='section-title'),
-            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Click on a borough to see the countries of origin.'),
-            html.P(id='current-borough', children='Ville de Montréal'),
-            
-            html.Div(className='flex-row', children=[
-                html.Div(className='four columns', children=[ # Montreal Map
-                    dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
-                html.Div(className='eight columns', children=[ # World map
-                    dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
-            
-        ], className='card'),
 
         html.Hr(className='section-divider'),
 
@@ -220,7 +222,7 @@ def update_party_income_chart(party):
 @app.callback(
     Output(component_id='world-immigrants-map', component_property='figure'),
     Output(component_id='current-borough', component_property='children'),
-    Input(component_id='montreal-immigrants-map', component_property='clickData'))
+    Input(component_id='boroughs-immigrants-map', component_property='clickData'))
 def update_world_immigrants_map(clickdata):
     fig, borough = get_world_immigrants_map(montreal_boroughs_mapdata, world_mapdata, borough_df, clickdata)
     return fig, borough
