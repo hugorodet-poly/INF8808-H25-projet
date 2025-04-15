@@ -79,7 +79,8 @@ def get_map(
             locations=[f['properties']['ID'] for f in map_data['features']],
             z=color,
             colorscale='Reds',
-            **kwargs))
+            **kwargs
+            ))
     
     # Set the zoom level
     zoom = unidecode(zoom).lower()

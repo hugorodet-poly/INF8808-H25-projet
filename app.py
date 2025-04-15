@@ -42,6 +42,8 @@ app = dash.Dash(
 )
 server = app.server
 app.title = 'Electoral Demographics Analysis'
+immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
+linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
 
 # ---------- Layout --------------------
 app.layout = html.Div([
@@ -65,14 +67,13 @@ app.layout = html.Div([
         html.H1('Electoral Demographics Analysis'),
         html.P('Interactive visualization of demographics and electoral patterns in Montreal and Quebec')
     ], className='hero-header'),
-
     # Main container
     html.Div([
         # 1. Immigration Map (Montreal)
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(figure=immigrants_map_fig, className='graph')
+            html.Iframe(src="/assets/immigration_map.html", width="100%", height="100%", className='iframe'),
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -81,7 +82,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Language Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-            dcc.Graph(figure=linguistic_map_fig, className='graph')
+            html.Iframe(src="/assets/linguistic_map.html", width="600", height="400", className='iframe'),
         ], className='card'),
 
         html.Hr(className='section-divider'),

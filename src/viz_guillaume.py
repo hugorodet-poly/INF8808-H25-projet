@@ -281,8 +281,8 @@ def linguistic_map(df, map_data):
         title_x=0.5,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
-        height=768,
-        width=1366,
+        height=400,
+        width=600,
     )
     fig.data[0].colorbar = dict(ticksuffix="%")
     return fig
@@ -299,20 +299,32 @@ def immigrants_map(df, map_data):
     district_mapping = {row['Circonscription']: i for i, row in df.iterrows()}
     color = [None] * len(map_data['features'])
 
-    for i, feature in enumerate(map_data['features']):
-        district_name = feature['properties']['NM_CEP']
-        district_name = district_name.replace("A(c)", "e")
-        district_name = district_name.replace("AC/ce", "ace")
-        if district_name in district_mapping and district_name in circo_subsets['Montréal']:
-            color[i] = df.loc[district_mapping[district_name], "Immigrants"]
+    # for i, feature in enumerate(map_data['features']):
+    #     district_name = feature['properties']['NM_CEP']
+    #     district_name = district_name.replace("A(c)", "e")
+    #     district_name = district_name.replace("AC/ce", "ace")
+    #     if district_name in district_mapping and district_name in circo_subsets['Montréal']:
+    #         color[i] = df.loc[district_mapping[district_name], "Immigrants"]
 
-    fig = get_map(map_data, color, zoom='montreal')
-    fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
-                      title_x=0.5,
-                      title_yanchor='top',
-                      title_font=dict(size=21, weight='bold'),
-                      height=768,
-                      width=1366,
-                      )
-    fig.data[0].colorbar = dict(ticksuffix="%")
+    fig = get_map(map_data, None, zoom='montreal')
+    # fig.update_layout(title_text='Population immigrante des circonscriptions de Montréal',
+    #                   title_x=0.5,
+    #                   title_yanchor='top',
+    #                   title_font=dict(size=21, weight='bold'),
+    #                   height=400,
+    #                   width=600,
+    #                   )
+    # fig.data[0].colorbar = dict(ticksuffix="%")
+    
+    fig.update_layout(
+        title=None,
+        map=dict(
+            style='white-bg',
+            center=dict(lat=45, lon=16), 
+            zoom=0.63),
+        margin=dict(l=0, r=100, t=50, b=10),
+        width=900, height=600)
+    
+    fig.update_mapboxes(
+        style='white-bg')
     return fig
