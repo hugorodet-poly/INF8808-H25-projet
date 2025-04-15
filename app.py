@@ -91,23 +91,6 @@ app.layout = html.Div([
             html.H2('Electoral Representation Analysis', className='section-title'),
             html.P('Visualizations analyzing electoral representation in Quebec and Montreal, showing relationships between demographics and voting patterns.'),
             
-            # Example of a flex row with two columns
-            html.Div([
-                # Quebec Waffle
-                html.Div([
-                    html.H3('Quebec Electoral Representation'),
-                    html.P('Distribution of seats in the Quebec National Assembly (2022 election).'),
-                    dcc.Graph(figure=fig_quebec, className='graph')
-                ], className='card'),
-
-                # Montreal Waffle
-                html.Div([
-                    html.H3('Montreal Electoral Representation'),
-                    html.P('Distribution of seats in Montreal electoral districts (2022 election).'),
-                    dcc.Graph(figure=fig_montreal, className='graph')
-                ], className='card'),
-
-            ], className='flex-row'),
 
             # Another row for the next two
             # Hypothetical Electoral Scenario
@@ -117,6 +100,24 @@ app.layout = html.Div([
                 dcc.Graph(figure=fig_hypothetical, className='graph')
             ], className='card'),
 
+            # Example of a flex row with two columns
+            html.Div([
+                # Quebec Waffle
+                html.Div([
+                    html.H3('Quebec Electoral Representation'),
+                    html.P('Distribution of seats in the Quebec National Assembly (2022 election).'),
+                    dcc.Graph(figure=fig_quebec, className='graph')
+                ], className='card flex-child'),
+
+                # Montreal Waffle
+                html.Div([
+                    html.H3('Montreal Electoral Representation'),
+                    html.P('Distribution of seats in Montreal electoral districts (2022 election).'),
+                    dcc.Graph(figure=fig_montreal, className='graph')
+                ], className='card flex-child'),
+
+            ], className='flex-row'),
+            
             # Upper median immigration districts
             html.Div([
                 html.H3('Upper Median Immigration Districts'),
