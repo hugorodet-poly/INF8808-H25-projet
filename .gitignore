@@ -1,6 +1,7 @@
 assets/data/borough_reports
 assets/data/immigration_extracted_csvs
 assets/data/resultats.json
+assets/*.html
 
 .html
 .csv

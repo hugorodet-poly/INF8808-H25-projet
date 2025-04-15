@@ -7,6 +7,7 @@ from src.maps import get_districts_mapdata, get_boroughs_mapdata, get_countries_
 from src.preprocess import get_demographics_data, get_elections_data, get_boroughs_data
 from src.viz_guillaume import stacked_bar_chart_most, stacked_bar_chart_least, immigrants_map, linguistic_map
 from src.viz_hugo import get_montreal_boroughs_map, get_world_immigrants_map
+from src.viz_nathan import create_interactive_connected_dot_plot, get_language_dropdown_options
 
 # Import Sidney's visualizations
 from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
@@ -32,6 +33,7 @@ fig_immigrant_voting = get_immigrant_voting_scatter(demographics_data, election_
 fig_most = stacked_bar_chart_most(demographics_data, election_data)
 fig_least = stacked_bar_chart_least(demographics_data, election_data)
 montreal_boroughs_map = get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df)
+language_dropdown_options = get_language_dropdown_options()
 
 # ---------- Dash App Setup -----------
 app = dash.Dash(
@@ -67,27 +69,50 @@ app.layout = html.Div([
         html.H1('Electoral Demographics Analysis'),
         html.P('Interactive visualization of demographics and electoral patterns in Montreal and Quebec')
     ], className='hero-header'),
+    
     # Main container
     html.Div([
-        # 1. Immigration Map (Montreal)
+
+        # 1. World Immigration Origins
         html.Div([
-            html.H2('Immigration Distribution in Montreal', className='section-title'),
+            html.H2('Immigration in Montreal', className='section-title'),
+            
+            html.H3('Distribution of the immigrants', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            html.Iframe(src="/assets/immigration_map.html", width="100%", height="100%", className='iframe'),
+            html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe'),
+            
+            html.Hr(className='section-divider'),
+            
+            html.H3('Countries of Origin', className='section-title'),
+            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. <b>Click on a borough !</b>'),
+            html.P(id='current-borough', children='Ville de Montréal'),
+            
+            html.Div(className='flex-row', children=[
+                html.Div(className='four columns', children=[ # Montreal Map
+                    dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
+                html.Div(className='eight columns', children=[ # World map
+                    dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
         ], className='card'),
 
         html.Hr(className='section-divider'),
 
-        # 2. Language Distribution (Montreal)
+        # 3. Language Distribution (Montreal)
         html.Div([
             html.H2('Language Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-            html.Iframe(src="/assets/linguistic_map.html", width="600", height="400", className='iframe'),
+            html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe'),
+            html.Hr(className='section-divider'),
+            html.P('Comparaison des votes par groupe linguistique aux élections québécoises de 2022'),
+            dcc.Dropdown(
+                id='language-dropdown',
+                options=language_dropdown_options,
+                value=language_dropdown_options[0],
+                className='custom-dropdown'),
+            dcc.Graph(id='connected-dot-plot', className='graph'),
         ], className='card'),
+        
 
-        html.Hr(className='section-divider'),
-
-        # 3. Electoral Representation
+        # 4. Electoral Representation
         html.Div([
             html.H2('Electoral Representation Analysis', className='section-title'),
             html.P('Visualizations analyzing electoral representation in Quebec and Montreal, showing relationships between demographics and voting patterns.'),
@@ -138,7 +163,7 @@ app.layout = html.Div([
             ], className='card'),
 
 
-            # 3.5 Party Support by Income
+            # 4.5 Party Support by Income
             html.Div([
                 html.H3('Party Support by Income Level'),
                 html.P('Relationship between median household income and voting patterns.'),
@@ -156,30 +181,16 @@ app.layout = html.Div([
                         value='Q.S.',
                         className='custom-dropdown'
                     )
-                ], className='card'),
+                ], className='row'),
 
                 html.Div(
                     id='income-chart-container',
-                    className='graph-container card'
+                    className='graph-container row'
                 )
             ], className='card'),
         ], className='card'),
 
         html.Hr(className='section-divider'),
-
-        # 4. World Immigration Origins
-        html.Div([
-            html.H2('Countries of Origin', className='section-title'),
-            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. Click on a borough to see the countries of origin.'),
-            html.P(id='current-borough', children='Ville de Montréal'),
-            
-            html.Div(className='flex-row', children=[
-                html.Div(className='four columns', children=[ # Montreal Map
-                    dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
-                html.Div(className='eight columns', children=[ # World map
-                    dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
-            
-        ], className='card'),
 
         html.Hr(className='section-divider'),
 
@@ -226,5 +237,13 @@ def update_world_immigrants_map(clickdata):
     fig, borough = get_world_immigrants_map(montreal_boroughs_mapdata, world_mapdata, borough_df, clickdata)
     return fig, borough
 
+@app.callback(
+    Output(component_id='connected-dot-plot', component_property='figure'),
+    Input(component_id='language-dropdown', component_property='value'))
+def update_language_dot_plot(lang_option):
+    fig = create_interactive_connected_dot_plot(demographics_data, election_data, lang_option)
+    return fig
+    
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
