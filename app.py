@@ -87,7 +87,7 @@ app.layout = html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
             html.Div(className='eight columns', children=[
-                dcc.Graph(id='districts-immigrants-map', figure=immigrants_map_fig, style={'justify': 'center'})])
+                dcc.Graph(id='districts-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})])
         ], className='card'),
 
         html.Hr(className='section-divider'),
