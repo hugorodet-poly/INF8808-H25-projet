@@ -84,7 +84,8 @@ app.layout = html.Div([
             html.Hr(className='section-divider'),
             
             html.H3('Countries of Origin', className='section-title'),
-            html.P('This map shows the countries of origin for immigrants in Montreal boroughs. <b>Click on a borough !</b>'),
+            html.P('This map shows the countries of origin for immigrants in Montreal boroughs.'),
+            html.H4('Click on a borough !'),
             html.P(id='current-borough', children='Ville de Montréal'),
             
             html.Div(className='flex-row', children=[

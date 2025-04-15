@@ -96,39 +96,6 @@ def get_language_dropdown_options():
         'Allophones VS. Ni francophones ni anglophones',
     ]
     return options
-    
-    # Get unique language values
-    languages = df['Langue'].unique()
-    # Create traces for each possible combination, avoiding duplicates
-    visible_traces = {}
-    combinations = []
-    # Create unique combinations without duplicates
-    processed_pairs = set()
-    for lang1 in languages:
-        for lang2 in languages:
-            if lang1 != lang2:
-                # Sort languages to ensure consistent ordering
-                sorted_langs = tuple(sorted([lang1, lang2]))
-                if sorted_langs not in processed_pairs:
-                    processed_pairs.add(sorted_langs)
-                    # Put Anglais vs Français first
-                    if set(sorted_langs) == {'Anglophones', 'Francophones'}:
-                        combinations.insert(0, sorted_langs)
-                    else:
-                        combinations.append(sorted_langs)
-                        
-    # Create dropdown menu
-    dropdown_buttons = []
-    for key in visible_traces.keys():
-        lang1, lang2 = key.split(" VS. ")
-        visibility = [False] * len(fig.data)
-        start_idx = list(visible_traces.keys()).index(key) * len(visible_traces[key])
-        for i in range(len(visible_traces[key])):
-            visibility[start_idx + i] = True
-        annotation_text = generate_districts_annotation(districts_dict, lang1, lang2)
-        dropdown_buttons.append(annotation_text)
-                        
-
 
 # Create vizualization
 def create_interactive_connected_dot_plot(df_demo, df_elec, lang_option):
@@ -210,7 +177,7 @@ def create_interactive_connected_dot_plot(df_demo, df_elec, lang_option):
         ),
         margin=dict(l=150, r=250, b=50, t=20),
         legend=dict(font_size=10, yanchor='top', xanchor='left'),
-        width=1165,
+        width=1300,
         height=600,
         paper_bgcolor='white',
         plot_bgcolor='rgba(192, 203, 238, 0.5)',
