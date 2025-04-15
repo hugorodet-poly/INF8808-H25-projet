@@ -86,7 +86,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            dcc.Graph(id='montreal-immigrants-map', className='graph')
+            dcc.Graph(id='districts-immigrants-map', className='graph')
         ], className='card'),
 
         html.Hr(className='section-divider'),
@@ -219,15 +219,15 @@ def update_party_income_chart(party):
     return dcc.Graph(figure=fig, className='graph')
 
 @app.callback(
-    Output(component_id='boroughs-immigrants-map', component_property='figure'),
+    Output(component_id='world-immigrants-map', component_property='figure'),
     Output(component_id='current-borough', component_property='children'),
-    Input(component_id='montreal-immigrants-map', component_property='clickData'))
+    Input(component_id='boroughs-immigrants-map', component_property='clickData'))
 def update_world_immigrants_map(clickdata):
     fig, borough = get_world_immigrants_map(montreal_boroughs_mapdata, world_mapdata, borough_df, clickdata)
     return fig, borough
 
 @app.callback(
-    Output(component_id='montreal-immigrants-map', component_property='figure'),
+    Output(component_id='districts-immigrants-map', component_property='figure'),
     Input(component_id='current_borough', component_property='children'))
 def update_montreal_immigrants_map(void):
     return immigrants_map_fig
