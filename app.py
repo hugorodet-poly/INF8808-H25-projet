@@ -228,9 +228,8 @@ def update_world_immigrants_map(clickdata):
 
 @app.callback(
     Output(component_id='districts-immigrants-map', component_property='figure'),
-    Input(component_id='current_borough', component_property='children'))
+    Input(component_id='boroughs-immigrants-map', component_property='children'))
 def update_montreal_immigrants_map(void):
-    return immigrants_map_fig
-
+    return immigrants_map(demographics_data, districts_mapdata)
 if __name__ == '__main__':
     app.run(debug=False)
