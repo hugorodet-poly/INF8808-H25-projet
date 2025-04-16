@@ -43,9 +43,9 @@ app = dash.Dash(
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
 server = app.server
-app.title = 'Electoral Demographics Analysis'
-immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
-linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
+# app.title = 'Electoral Demographics Analysis'
+# immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
+# linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
 
 # ---------- Layout --------------------
 app.layout = html.Div([
@@ -79,7 +79,7 @@ app.layout = html.Div([
             
             html.H3('Distribution of the immigrants', className='section-title'),
             html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
-            html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe'),
+            html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe', style={"overflow": "hidden"}),
             
             html.Hr(className='section-divider'),
             
@@ -93,7 +93,7 @@ app.layout = html.Div([
                     dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
                 html.Div(className='eight columns', children=[ # World map
                     dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
-        ], className='card'),
+        ], className='card',  style={"overflow": "hidden"}),
 
         html.Hr(className='section-divider'),
 
@@ -101,7 +101,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Language Distribution in Montreal', className='section-title'),
             html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
-            html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe'),
+            html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe', style={"overflow": "hidden"}),
             html.Hr(className='section-divider'),
             html.P('Comparaison des votes par groupe linguistique aux élections québécoises de 2022'),
             dcc.Dropdown(
@@ -110,7 +110,7 @@ app.layout = html.Div([
                 value=language_dropdown_options[0],
                 className='custom-dropdown'),
             dcc.Graph(id='connected-dot-plot', className='graph'),
-        ], className='card'),
+        ], className='card', style={"overflow": "hidden"}),
         
 
         # 4. Electoral Representation
