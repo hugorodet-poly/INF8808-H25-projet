@@ -54,7 +54,7 @@ app.layout = html.Div([
     html.Nav([
         html.Div([
             # Left side: Dashboard Title / Branding
-            html.Div("Demographics Dashboard", className="navbar-brand"),
+            html.Div("Tableau démographique", className="navbar-brand"),
             
             # Right side: Any extra nav links or placeholders
             html.Div([
@@ -66,8 +66,8 @@ app.layout = html.Div([
 
     # Header
     html.Header([
-        html.H1('Electoral Demographics Analysis'),
-        html.P('Interactive visualization of demographics and electoral patterns in Montreal and Quebec')
+        html.H1('Comment votent vos voisins ?', className='hero-title'),
+        html.H2('Analyse des comportements électoraux et de la diversité culturelle à Montréal', className='hero-subtitle'),
     ], className='hero-header'),
     
     # Main container
@@ -77,7 +77,7 @@ app.layout = html.Div([
         html.Div([
             html.H2('Immigration à Montreal', className='section-title'),
             
-            html.H3('Répartition des immigrants en ville', className='section-title'),
+            html.H3('Répartition des immigrants en ville'),
             html.P(
                 """Le Québec compte environ 1,1 million de personnes immigrantes, dont plus de 500 000 vivent sur l’île de Montréal. 
                 Cela signifie que près de la moitié de la population immigrante de la province est concentrée 
@@ -98,7 +98,7 @@ app.layout = html.Div([
             
             html.Hr(className='section-divider'),
             
-            html.H3('Pays d\'origine', className='section-title'),
+            html.H3('Pays d\'origine'),
             html.P(
                 """Cette visualisation met en relation les arrondissements de Montréal avec les principaux pays d’origine de 
                 leur population immigrante. Elle permet d’explorer la diversité géographique des communautés présentes dans 
@@ -145,7 +145,7 @@ app.layout = html.Div([
 
         # 4. Electoral Representation
         html.Div([
-            html.H2('Analyse de la représentaion électorale', className='section-title'),
+            html.H2('Analyse de la représentation électorale', className='section-title'),
             html.P(
                 """Cette section présente plusieurs visualisations en forme de waffle charts, illustrant la 
                 répartition des 125 sièges de l’Assemblée nationale du Québec. Chaque case représente un siège 
@@ -157,7 +157,7 @@ app.layout = html.Div([
             html.Div([
                 # Quebec Waffle
                 html.Div([
-                    html.H3('Représentation électorale qu Québec'),
+                    html.H3('Représentation électorale au Québec'),
                     html.P(
                         """Le résultat électoral à l’échelle provinciale révèle une nette domination de la 
                         Coalition Avenir Québec (CAQ), qui occupe une large majorité des sièges à l’Assemblée 
@@ -184,7 +184,7 @@ app.layout = html.Div([
             # Another row for the next two
             # Hypothetical Electoral Scenario
             html.Div([
-                html.H3('Scénario hypothétique d\'élections'),
+                html.H3('Et si seule Montréal votait ?'),
                 html.P(
                     """En imaginant que l’ensemble du Québec adopte les tendances de vote observées à Montréal, 
                     la composition de l’Assemblée nationale serait transformée, avec une présence renforcée 
@@ -197,13 +197,25 @@ app.layout = html.Div([
 
             # Upper median immigration districts
             html.Div([
-                html.H3('Circonscriptions à immigration supérieure à la médiane'),
+                html.H3('Circonscriptions avec le plus d\'immigration'),
+                html.P('Immigration supérieure à la médiane'),
+                html.P(
+                    """Cette visualisation met en lumière les circonscriptions montréalaises où la proportion 
+                    d’immigrants est supérieure à la médiane. Ces zones, souvent caractérisées par une forte 
+                    diversité culturelle et linguistique, sont des lieux de rencontre et d’échange, mais aussi 
+                    de défis en matière d’intégration et de représentation politique."""),
                 dcc.Graph(figure=fig_upper_median_immigration, className='graph')
             ], className='card'),
 
             # Lower median immigration districts
             html.Div([
-                html.H3('Circonscriptions à immigration inférieure à la médiane'),
+                html.H3('Circonscriptions avec le moins d\'immigration'),
+                html.P('Immigration inférieure à la médiane'),
+                html.P(
+                    """Cette visualisation met au contraire en lumière les circonscriptions montréalaises où la proportion 
+                    d’immigrants est inférieure à la médiane. Ces zones, souvent plus homogènes sur le plan 
+                    culturel et linguistique, peuvent présenter des défis bien différents en matière d’intégration 
+                    des nouveaux arrivants."""),
                 dcc.Graph(figure=fig_lower_median_immigration, className='graph')
             ], className='card'),
 
