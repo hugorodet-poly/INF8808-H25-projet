@@ -272,12 +272,12 @@ app.layout = html.Div([
                 locales : la diversité culturelle, linguistique et socio-économique façonne les priorités électorales 
                 et les comportements politiques à l’échelle des territoires."""),
             html.Div([
-                html.H3('Districts with Highest Immigration Levels'),
+                html.H3('Circonscriptions avec le plus haut taux d\'immigration'),
                 dcc.Graph(figure=fig_most, className='graph')
             ], className='card'),
 
             html.Div([
-                html.H3('Districts with Lowest Immigration Levels'),
+                html.H3('Circonscriptions avec le plus faible taux d\'immigration'),
                 dcc.Graph(figure=fig_least, className='graph')
             ], className='card')
         ], className='card'),
