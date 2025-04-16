@@ -43,9 +43,9 @@ app = dash.Dash(
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
 server = app.server
-app.title = 'Electoral Demographics Analysis'
-immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
-linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
+# app.title = 'Electoral Demographics Analysis'
+# immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
+# linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
 
 # ---------- Layout --------------------
 app.layout = html.Div([
@@ -54,7 +54,7 @@ app.layout = html.Div([
     html.Nav([
         html.Div([
             # Left side: Dashboard Title / Branding
-            html.Div("Demographics Dashboard", className="navbar-brand"),
+            html.Div("Tableau démographique", className="navbar-brand"),
             
             # Right side: Any extra nav links or placeholders
             html.Div([
@@ -66,8 +66,8 @@ app.layout = html.Div([
 
     # Header
     html.Header([
-        html.H1('Electoral Demographics Analysis'),
-        html.P('Interactive visualization of demographics and electoral patterns in Montreal and Quebec')
+        html.H1('Comment votent vos voisins ?', className='hero-title'),
+        html.H2('Analyse des comportements électoraux et de la diversité culturelle à Montréal', className='hero-subtitle'),
     ], className='hero-header'),
     
     # Main container
@@ -75,17 +75,35 @@ app.layout = html.Div([
 
         # 1. World Immigration Origins
         html.Div([
-            html.H2('Immigration in Montreal', className='section-title'),
+            html.H2('Immigration à Montreal', className='section-title'),
             
-            html.H3('Distribution of the immigrants', className='section-title'),
-            html.P('This map shows the percentage of immigrants across different electoral districts in Montreal.'),
+            html.H3('Répartition des immigrants en ville'),
+            html.P(
+                """Le Québec compte environ 1,1 million de personnes immigrantes, dont plus de 500 000 vivent sur l’île de Montréal. 
+                Cela signifie que près de la moitié de la population immigrante de la province est concentrée 
+                sur un territoire représentant moins de 5% de sa superficie. 
+                Cette forte densité souligne le rôle central de Montréal comme pôle d’accueil au Québec."""),
+            html.P(
+                """Plusieurs facteurs expliquent cette répartition : la présence de quartiers multiculturels historiques, 
+                une offre de logement relativement accessible, des services d’intégration développés et des réseaux 
+                communautaires bien établis."""),
+            html.P(
+                "Source : Statistique Canada, Recensement de 2021 — Profil de la population immigrante (tableau 98-10-0439-01).", 
+                style={"fontSize": "0.8em", "color": "#6c757d", "marginTop": "10px"}),
+            html.P(
+                """La carte ci-dessous montre la répartition des immigrants selon les circonscriptions électorales de 
+                l’île de Montréal, avec des zones de forte concentration comme Côte-des-Neiges, Saint-Laurent ou Parc-Extension.
+                Elle permet de visualiser les contrastes territoriaux et de mieux comprendre la géographie sociale de l’immigration sur l’île."""),
             html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe'),
             
             html.Hr(className='section-divider'),
             
-            html.H3('Countries of Origin', className='section-title'),
-            html.P('This map shows the countries of origin for immigrants in Montreal boroughs.'),
-            html.H4('Click on a borough !'),
+            html.H3('Pays d\'origine'),
+            html.P(
+                """Cette visualisation met en relation les arrondissements de Montréal avec les principaux pays d’origine de 
+                leur population immigrante. Elle permet d’explorer la diversité géographique des communautés présentes dans 
+                chaque secteur de la ville, en offrant une lecture croisée entre territoire local et provenance mondiale."""),
+            html.H4('Cliquez sur un arrondissement !'),
             html.P(id='current-borough', children='Ville de Montréal'),
             
             html.Div(className='flex-row', children=[
@@ -93,16 +111,28 @@ app.layout = html.Div([
                     dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
                 html.Div(className='eight columns', children=[ # World map
                     dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
-        ], className='card'),
+        ], className='card',  style={"overflow": "hidden"}),
 
         html.Hr(className='section-divider'),
 
         # 3. Language Distribution (Montreal)
         html.Div([
-            html.H2('Language Distribution in Montreal', className='section-title'),
-            html.P('This map shows the percentage of people who speak neither English nor French across Montreal electoral districts.'),
+            html.H2('Répartition des langues à Montréal', className='section-title'),
+            html.P(
+                """Cette carte montre la répartition des personnes vivant sur l’île de Montréal qui ne parlent ni le français 
+                ni l’anglais à la maison. Bien que leur proportion demeure faible dans l’ensemble, certaines circonscriptions 
+                dépassent les 5 %, notamment dans des secteurs marqués par une forte diversité linguistique."""),
+            html.P(
+                """Cette situation révèle une réalité importante : pour une partie des résidents, les langues officielles 
+                ne sont ni maîtrisées ni utilisées au quotidien, ce qui peut limiter l’accès à l’information, aux soins, 
+                à l’éducation, ainsi qu’à la participation à la vie citoyenne et politique."""),
+            html.P(
+                "Source : Statistique Canada, Recensement de 2021 – Langue parlée à la maison (tableau 98-10-0235-01).",
+                style={"fontSize": "0.8em", "color": "#6c757d", "marginTop": "10px"}),
             html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe'),
+            
             html.Hr(className='section-divider'),
+            
             html.P('Comparaison des votes par groupe linguistique aux élections québécoises de 2022'),
             dcc.Dropdown(
                 id='language-dropdown',
@@ -110,67 +140,105 @@ app.layout = html.Div([
                 value=language_dropdown_options[0],
                 className='custom-dropdown'),
             dcc.Graph(id='connected-dot-plot', className='graph'),
-        ], className='card'),
+        ], className='card', style={"overflow": "hidden"}),
         
 
         # 4. Electoral Representation
         html.Div([
-            html.H2('Electoral Representation Analysis', className='section-title'),
-            html.P('Visualizations analyzing electoral representation in Quebec and Montreal, showing relationships between demographics and voting patterns.'),
-            
+            html.H2('Analyse de la représentation électorale', className='section-title'),
+            html.P(
+                """Cette section présente plusieurs visualisations en forme de waffle charts, illustrant la 
+                répartition des 125 sièges de l’Assemblée nationale du Québec. Chaque case représente un siège 
+                et est colorée selon le parti politique auquel il appartient. Ces représentations permettent 
+                d’analyser différentes configurations électorales et d’explorer les effets du système majoritaire, 
+                tout en mettant en lumière les liens possibles entre la structure démographique des territoires 
+                et les tendances de vote observées."""),
             # Example of a flex row with two columns
             html.Div([
                 # Quebec Waffle
                 html.Div([
-                    html.H3('Quebec Electoral Representation'),
-                    html.P('Distribution of seats in the Quebec National Assembly (2022 election).'),
+                    html.H3('Représentation électorale au Québec'),
+                    html.P(
+                        """Le résultat électoral à l’échelle provinciale révèle une nette domination de la 
+                        Coalition Avenir Québec (CAQ), qui occupe une large majorité des sièges à l’Assemblée 
+                        nationale. Cette surreprésentation reflète les effets du système électoral majoritaire 
+                        uninominal à un tour, qui favorise fortement le parti en tête, même lorsque le vote 
+                        populaire est plus partagé entre plusieurs formations politiques (élections 2022)."""),
                     dcc.Graph(figure=fig_quebec, className='graph')
                 ], className='card flex-child'),
 
                 # Montreal Waffle
                 html.Div([
-                    html.H3('Montreal Electoral Representation'),
-                    html.P('Distribution of seats in Montreal electoral districts (2022 election).'),
+                    html.H3('Représentation électorale à Montréal'),
+                    html.P(
+                        """Sur l’île de Montréal, la répartition des sièges reflète une plus grande diversité 
+                        politique, dominée par le Parti libéral du Québec (PLQ) et Québec solidaire (QS), avec 
+                        une faible présence de la CAQ. Cette tendance s’explique en partie par un électorat urbain 
+                        plus progressiste, jeune et fortement marqué par l’immigration et la diversité culturelle, 
+                        des facteurs qui influencent significativement les choix électoraux (élections 2022)."""),
                     dcc.Graph(figure=fig_montreal, className='graph')
                 ], className='card flex-child'),
 
-            ], className='flex-row'),
 
             # Another row for the next two
             # Hypothetical Electoral Scenario
             html.Div([
-                html.H3('Hypothetical Electoral Scenario'),
-                html.P('What if Montreal voting patterns applied to all of Quebec?'),
+                html.H3('Et si seule Montréal votait ?'),
+                html.P(
+                    """En imaginant que l’ensemble du Québec adopte les tendances de vote observées à Montréal, 
+                    la composition de l’Assemblée nationale serait transformée, avec une présence renforcée 
+                    des partis progressistes. Ce scénario révèle un décalage important entre les milieux urbains 
+                    et les régions rurales, en partie lié à la diversité culturelle, à l’immigration et aux 
+                    réalités sociales propres aux centres urbains. Il met aussi en évidence les limites d’un 
+                    système électoral qui peine à refléter la pluralité des voix à l’échelle provinciale."""),
                 dcc.Graph(figure=fig_hypothetical, className='graph')
             ], className='card'),
 
             # Upper median immigration districts
             html.Div([
-                html.H3('Upper Median Immigration Districts'),
+                html.H3('Circonscriptions avec le plus d\'immigration'),
+                html.P('Immigration supérieure à la médiane'),
+                html.P(
+                    """Cette visualisation met en lumière les circonscriptions montréalaises où la proportion 
+                    d’immigrants est supérieure à la médiane. Ces zones, souvent caractérisées par une forte 
+                    diversité culturelle et linguistique, sont des lieux de rencontre et d’échange, mais aussi 
+                    de défis en matière d’intégration et de représentation politique."""),
                 dcc.Graph(figure=fig_upper_median_immigration, className='graph')
             ], className='card'),
 
             # Lower median immigration districts
             html.Div([
-                html.H3('Lower Median Immigration Districts'),
+                html.H3('Circonscriptions avec le moins d\'immigration'),
+                html.P('Immigration inférieure à la médiane'),
+                html.P(
+                    """Cette visualisation met au contraire en lumière les circonscriptions montréalaises où la proportion 
+                    d’immigrants est inférieure à la médiane. Ces zones, souvent plus homogènes sur le plan 
+                    culturel et linguistique, peuvent présenter des défis bien différents en matière d’intégration 
+                    des nouveaux arrivants."""),
                 dcc.Graph(figure=fig_lower_median_immigration, className='graph')
             ], className='card'),
 
             # Immigration and Voter Participation
             html.Div([
-                html.H3('Immigration and Voter Participation'),
-                html.P('Correlation between immigration rates and voter turnout.'),
+                html.H3('Immigration et taux de participation électorale'),
+                html.P(
+                    """Le taux de participation électorale tend à diminuer légèrement dans les circonscriptions 
+                    où la proportion d’immigrants est plus élevée. Cette tendance, bien que non systématique, 
+                    reflète des dynamiques sociales complexes liées à l’intégration et à la représentation politique."""),
                 dcc.Graph(figure=fig_immigrant_voting, className='graph')
             ], className='card'),
 
 
             # 4.5 Party Support by Income
             html.Div([
-                html.H3('Party Support by Income Level'),
-                html.P('Relationship between median household income and voting patterns.'),
-                
+                html.H3('Soutien électoral par niveau de revenu'),
+                html.P(
+                    """Cette visualisation interactive permet d’explorer la relation entre le revenu médian 
+                    des ménages et le soutien électoral selon le parti sélectionné. Elle met en évidence certaines 
+                    tendances, notamment le lien entre le niveau de revenu d’une circonscription et l’adhésion 
+                    à un parti, offrant un aperçu des profils socio-économiques associés aux préférences politiques."""),
                 html.Div([
-                    html.H4('Select Political Party:'),
+                    html.H4('Sélectionnez un parti politique :'),
                     dcc.Dropdown(
                         id='party-dropdown',
                         options=[
@@ -188,18 +256,21 @@ app.layout = html.Div([
                     id='income-chart-container',
                     className='graph-container row'
                 )
-            ], className='card'),
+            ], className='card'),]),
         ], className='card'),
-
-        html.Hr(className='section-divider'),
 
         html.Hr(className='section-divider'),
 
         # 5. Voting Patterns (Stacked Bar)
         html.Div([
-            html.H2('Voting Patterns by Immigration Level', className='section-title'),
-            html.P('Charts showing voting patterns in electoral districts with the highest and lowest immigration levels.'),
-
+            html.H2('Comportements de vote en fonction du taux d\'immigration', className='section-title'),
+            html.P(
+                """Le contraste entre les circonscriptions à faible et forte immigration révèle une polarisation des 
+                préférences électorales. La CAQ domine dans les zones moins diversifiées, tandis que le vote est plus 
+                fragmenté dans les secteurs à forte immigration, avec une présence marquée du PLQ et de Québec solidaire. 
+                Ces résultats montrent que la composition démographique influence directement les dynamiques politiques 
+                locales : la diversité culturelle, linguistique et socio-économique façonne les priorités électorales 
+                et les comportements politiques à l’échelle des territoires."""),
             html.Div([
                 html.H3('Districts with Highest Immigration Levels'),
                 dcc.Graph(figure=fig_most, className='graph')
@@ -218,7 +289,7 @@ app.layout = html.Div([
         html.A("Privacy Policy", href="#"),
         html.A("Terms of Service", href="#")
     ], className="page-footer"),
-
+    
 ], className='body-wrapper')  # outermost container
 
 # ---------- Callbacks ----------
@@ -247,4 +318,4 @@ def update_language_dot_plot(lang_option):
     
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

@@ -94,4 +94,4 @@ def get_world_immigrants_map(
     world_map.update_mapboxes(
         style='white-bg')
     
-    return world_map, f'Showing origin countries for : {borough_name}'
+    return world_map, f'Pays d\'origine : {borough_name}'
