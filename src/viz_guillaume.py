@@ -72,7 +72,7 @@ def stacked_bar_chart_most(df1, df):
         barmode='stack',
         paper_bgcolor='rgb(248, 248, 255)',
         plot_bgcolor='rgb(248, 248, 255)',
-        margin=dict(l=120, r=10, t=140, b=80),
+        margin=dict(l=50, r=10, t=0, b=40),
         showlegend=False,
     )
 
@@ -96,7 +96,7 @@ def stacked_bar_chart_most(df1, df):
                                     showarrow=False))
         if yd == y_data[-1]:
             annotations.append(dict(xref='x', yref='paper',
-                                    x=shift, y=1.1,
+                                    x=shift, y=1.15,
                                     text=top_labels[0],
                                     font=dict(family='Arial', size=21, weight='bold',
                                               color=colors[0]),
@@ -112,7 +112,7 @@ def stacked_bar_chart_most(df1, df):
                                         showarrow=False))
             if yd == y_data[-1]:
                 annotations.append(dict(xref='x', yref='paper',
-                                        x=shift * (i + 1), y=1.1,
+                                        x=shift * (i + 1), y=1.15,
                                         text=top_labels[i],
                                         font=dict(family='Arial', size=21, weight='bold',
                                                   color=colors[i]),
@@ -123,9 +123,9 @@ def stacked_bar_chart_most(df1, df):
                       margin=dict(t=200),
                       title_text="Répartition des votes dans les circonscriptions avec le plus d'immigrants",
                       title_x=0.5,
-                      title_y=0.95,
+                      title_y=0.75,
                       title_yanchor='top',
-                      title_font=dict(size=32, weight='bold'),
+                      title_font=dict(size=24, weight='bold'),
                       )
     return fig
 
@@ -199,7 +199,7 @@ def stacked_bar_chart_least(df1, df):
         barmode='stack',
         paper_bgcolor='rgb(248, 248, 255)',
         plot_bgcolor='rgb(248, 248, 255)',
-        margin=dict(l=120, r=10, t=140, b=80),
+        margin=dict(l=50, r=10, t=0, b=40),
         showlegend=False,
     )
 
@@ -223,7 +223,7 @@ def stacked_bar_chart_least(df1, df):
                                     showarrow=False))
         if yd == y_data[-1]:
             annotations.append(dict(xref='x', yref='paper',
-                                    x=shift, y=1.1,
+                                    x=shift, y=1.15,
                                     text=top_labels[0],
                                     font=dict(family='Arial', size=21, weight='bold',
                                               color=colors[0]),
@@ -239,7 +239,7 @@ def stacked_bar_chart_least(df1, df):
                                         showarrow=False))
             if yd == y_data[-1]:
                 annotations.append(dict(xref='x', yref='paper',
-                                        x=shift * (i + 1), y=1.1,
+                                        x=shift * (i + 1), y=1.15,
                                         text=top_labels[i],
                                         font=dict(family='Arial', size=21, weight='bold',
                                                   color=colors[i]),
@@ -250,9 +250,9 @@ def stacked_bar_chart_least(df1, df):
                       margin=dict(t=200),
                       title_text="Répartition des votes dans les circonscriptions avec le moins d'immigrants",
                       title_x=0.5,
-                      title_y=0.95,
+                      title_y=0.75,
                       title_yanchor='top',
-                      title_font=dict(size=32, weight='bold'),
+                      title_font=dict(size=24, weight='bold'),
                       )
     return fig
 
