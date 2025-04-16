@@ -163,7 +163,7 @@ app.layout = html.Div([
                         Coalition Avenir Québec (CAQ), qui occupe une large majorité des sièges à l’Assemblée 
                         nationale. Cette surreprésentation reflète les effets du système électoral majoritaire 
                         uninominal à un tour, qui favorise fortement le parti en tête, même lorsque le vote 
-                        populaire est plus partagé entre plusieurs formations politiques.(2022 election)."""),
+                        populaire est plus partagé entre plusieurs formations politiques (élections 2022)."""),
                     dcc.Graph(figure=fig_quebec, className='graph')
                 ], className='card flex-child'),
 
@@ -175,7 +175,7 @@ app.layout = html.Div([
                         politique, dominée par le Parti libéral du Québec (PLQ) et Québec solidaire (QS), avec 
                         une faible présence de la CAQ. Cette tendance s’explique en partie par un électorat urbain 
                         plus progressiste, jeune et fortement marqué par l’immigration et la diversité culturelle, 
-                        des facteurs qui influencent significativement les choix électoraux.(2022 election)."""),
+                        des facteurs qui influencent significativement les choix électoraux (élections 2022)."""),
                     dcc.Graph(figure=fig_montreal, className='graph')
                 ], className='card flex-child'),
 
