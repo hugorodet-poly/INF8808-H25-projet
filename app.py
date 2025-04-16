@@ -43,9 +43,9 @@ app = dash.Dash(
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
 server = app.server
-app.title = 'Electoral Demographics Analysis'
-immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
-linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
+# app.title = 'Electoral Demographics Analysis'
+# immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
+# linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
 
 # ---------- Layout --------------------
 app.layout = html.Div([
@@ -111,7 +111,7 @@ app.layout = html.Div([
                     dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
                 html.Div(className='eight columns', children=[ # World map
                     dcc.Graph(id='world-immigrants-map', style={'justify': 'center'})])]),
-        ], className='card'),
+        ], className='card',  style={"overflow": "hidden"}),
 
         html.Hr(className='section-divider'),
 
@@ -140,7 +140,7 @@ app.layout = html.Div([
                 value=language_dropdown_options[0],
                 className='custom-dropdown'),
             dcc.Graph(id='connected-dot-plot', className='graph'),
-        ], className='card'),
+        ], className='card', style={"overflow": "hidden"}),
         
 
         # 4. Electoral Representation
@@ -179,7 +179,6 @@ app.layout = html.Div([
                     dcc.Graph(figure=fig_montreal, className='graph')
                 ], className='card flex-child'),
 
-            ], className='flex-row'),
 
             # Another row for the next two
             # Hypothetical Electoral Scenario
@@ -257,10 +256,8 @@ app.layout = html.Div([
                     id='income-chart-container',
                     className='graph-container row'
                 )
-            ], className='card'),
+            ], className='card'),]),
         ], className='card'),
-
-        html.Hr(className='section-divider'),
 
         html.Hr(className='section-divider'),
 
@@ -292,7 +289,7 @@ app.layout = html.Div([
         html.A("Privacy Policy", href="#"),
         html.A("Terms of Service", href="#")
     ], className="page-footer"),
-
+    
 ], className='body-wrapper')  # outermost container
 
 # ---------- Callbacks ----------
