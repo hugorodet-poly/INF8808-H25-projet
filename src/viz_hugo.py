@@ -32,7 +32,7 @@ def get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df):
   
     # Create the map    
     montreal_map = get_map(montreal_boroughs_mapdata, mtl_map_color, zoom='montreal', marker_line_width=1)
-    mtl_hovertemplate = "<b>Neighborhood :<br></b>  %{customdata[0]}<br><b>Borough :<br></b>  %{customdata[1]}<br><b>Immigrants :<br></b>  %{z}<extra></extra>"
+    mtl_hovertemplate = "<b>Neighborhood :<br></b> %{customdata[0]}<br><b>Borough :<br></b> %{customdata[1]}<br><b>Immigrants :<br></b>  %{z}<extra></extra>"
     
     montreal_map.update_traces(
         colorscale=custom_scale,
@@ -54,6 +54,28 @@ def get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df):
     
     return montreal_map
 
+def express_choropleth(map_data, color):
+    """
+    Create a map of the world
+    """
+    fig = px.choropleth(
+        geojson=map_data,
+        color=color,
+        featureidkey='properties.ID',
+        locations=[f['properties']['ID'] for f in map_data['features']],
+        color_continuous_scale=px.colors.sequential.Reds,
+        projection='equal earth',
+        #scope='world',
+        #fitbounds='locations',
+        #center=dict(lat=45, lon=-73),
+    )
+    fig.update_mapboxes(
+        style="white-bg",
+        center=dict(lat=45, lon=-73),
+        zoom=1,
+    )
+    return fig
+
 def get_world_immigrants_map(
     montreal_boroughs_mapdata,
     world_mapdata,
@@ -62,7 +84,7 @@ def get_world_immigrants_map(
     # Case when no borough is selected, showing for the whole of Montréal by default
     if clickdata is None:
         color, country_names = get_countries_of_origin('Ville de Montréal', borough_df, world_mapdata)
-        world_map = get_map(world_mapdata, color=color)
+        world_map = express_choropleth(world_mapdata, color=color)
         borough_name = 'Ville de Montréal'
     # Case when a borough is selected
     else:
@@ -71,11 +93,11 @@ def get_world_immigrants_map(
 
         # Some choropleth polygons actually have no associated borough
         if borough_name is None:
-            world_map = get_map(world_mapdata, color=[None]*len(world_mapdata['features']))
+            world_map = express_choropleth(world_mapdata, color=[None]*len(world_mapdata['features']))
             
         else:
             color, country_names = get_countries_of_origin(borough_name, borough_df, world_mapdata)
-            world_map = get_map(world_mapdata, color)
+            world_map = express_choropleth(world_mapdata, color)
  
     hovertemplate = "<b>%{customdata[0]} :</b> %{z}<extra></extra>"
     
@@ -84,6 +106,7 @@ def get_world_immigrants_map(
     country_names = [' '.join([word.capitalize() for word in name.split(' ')]) for name in country_names]
     country_names = ['\''.join([word.capitalize() for word in name.split('\'')]) for name in country_names]
     
+    
     world_map.update_traces(
         marker_line_width=0.1,
         hovertemplate=hovertemplate,
@@ -91,14 +114,8 @@ def get_world_immigrants_map(
     
     world_map.update_layout(
         title=None,
-        map=dict(
-            style='white-bg',
-            center=dict(lat=45, lon=16), 
-            zoom=0.63),
-        margin=dict(l=0, r=100, t=50, b=10),
+        margin=dict(l=0, r=0, t=0, b=0),
         width=900, height=600)
-    
-    world_map.update_mapboxes(
-        style='white-bg')
+    world_map.update_coloraxes(colorbar_title='Immigrants')
     
     return world_map, f'Pays d\'origine : {borough_name}'
