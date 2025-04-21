@@ -50,7 +50,7 @@ def get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df):
         map_style='white-bg',
         margin=dict(l=0, r=0, t=0, b=0),
         map=dict(center=dict(lat=45.5517, lon=-73.7073), zoom=9),
-        width=400, height=600)
+        width=400, height=400)
     
     return montreal_map
 
@@ -65,14 +65,9 @@ def express_choropleth(map_data, color):
         locations=[f['properties']['ID'] for f in map_data['features']],
         color_continuous_scale=px.colors.sequential.Reds,
         projection='equal earth',
-        #scope='world',
-        #fitbounds='locations',
-        #center=dict(lat=45, lon=-73),
     )
     fig.update_mapboxes(
         style="white-bg",
-        center=dict(lat=45, lon=-73),
-        zoom=1,
     )
     return fig
 
@@ -115,7 +110,8 @@ def get_world_immigrants_map(
     world_map.update_layout(
         title=None,
         margin=dict(l=0, r=0, t=0, b=0),
-        width=900, height=600)
+        width=900, height=400)
+    
     world_map.update_coloraxes(colorbar_title='Immigrants')
     
     return world_map, f'Pays d\'origine : {borough_name}'
