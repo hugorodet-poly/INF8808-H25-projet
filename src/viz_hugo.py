@@ -32,19 +32,21 @@ def get_montreal_boroughs_map(montreal_boroughs_mapdata, borough_df):
   
     # Create the map    
     montreal_map = get_map(montreal_boroughs_mapdata, mtl_map_color, zoom='montreal', marker_line_width=1)
-    mtl_hovertemplate = "<b>Neighborhood :</b> %{customdata[0]}<br><b>Borough :</b> %{customdata[1]}<br><b>Immigrants :</b> %{z}<extra></extra>"
+    mtl_hovertemplate = "<b>Neighborhood :<br></b>  %{customdata[0]}<br><b>Borough :<br></b>  %{customdata[1]}<br><b>Immigrants :<br></b>  %{z}<extra></extra>"
     
     montreal_map.update_traces(
         colorscale=custom_scale,
         showscale=False,
         hovertemplate=mtl_hovertemplate,
+        hoverlabel=dict(align='left'),
         customdata=[
             (
                 f['properties']['nom_qr'],
-                f['properties']['nom_arr'] if f['properties']['nom_arr'] is not None else '<i>No associated borough</i>',
+                f['properties']['nom_arr'].replace(',', ',<br>') if f['properties']['nom_arr'] is not None else '<i>No associated borough</i>',
             ) for f in montreal_boroughs_mapdata['features']])
     
     montreal_map.update_layout(
+        hovermode='x',
         map_style='white-bg',
         margin=dict(l=0, r=0, t=0, b=0),
         map=dict(center=dict(lat=45.5517, lon=-73.7073), zoom=9),
@@ -75,7 +77,12 @@ def get_world_immigrants_map(
             color, country_names = get_countries_of_origin(borough_name, borough_df, world_mapdata)
             world_map = get_map(world_mapdata, color)
  
-    hovertemplate = "<b>Immigrants from %{customdata[0]} :</b> %{z}<extra></extra>"
+    hovertemplate = "<b>%{customdata[0]} :</b> %{z}<extra></extra>"
+    
+    # Capitalize first letters
+    country_names = ['-'.join([word.capitalize() for word in name.split('-')]) for name in country_names]
+    country_names = [' '.join([word.capitalize() for word in name.split(' ')]) for name in country_names]
+    country_names = ['\''.join([word.capitalize() for word in name.split('\'')]) for name in country_names]
     
     world_map.update_traces(
         marker_line_width=0.1,
