@@ -66,9 +66,8 @@ def express_choropleth(map_data, color):
         color_continuous_scale=px.colors.sequential.Reds,
         projection='equal earth',
     )
-    fig.update_mapboxes(
-        style="white-bg",
-    )
+    fig.update_mapboxes(style="white-bg")
+
     return fig
 
 def get_world_immigrants_map(
@@ -104,6 +103,7 @@ def get_world_immigrants_map(
     
     world_map.update_traces(
         marker_line_width=0.1,
+        marker_line_color='gray',
         hovertemplate=hovertemplate,
         customdata=[[name] for name in country_names])
     
