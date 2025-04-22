@@ -43,9 +43,6 @@ app = dash.Dash(
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}]
 )
 server = app.server
-# app.title = 'Electoral Demographics Analysis'
-# immigrants_map_fig.write_html("assets/immigration_map.html", include_plotlyjs='cdn')
-# linguistic_map_fig.write_html("assets/linguistic_map.html", include_plotlyjs='cdn')
 
 # ---------- Layout --------------------
 app.layout = html.Div([
@@ -55,7 +52,7 @@ app.layout = html.Div([
         html.Div([
             # Left side: Dashboard Title / Branding
             html.Div("Tableau démographique", className="navbar-brand"),
-            
+
             # Right side: Any extra nav links or placeholders
             html.Div([
                 html.A("Home", href="#", className="nav-link"),
@@ -69,14 +66,14 @@ app.layout = html.Div([
         html.H1('Comment votent vos voisins ?', className='hero-title'),
         html.H2('Analyse des comportements électoraux et de la diversité culturelle à Montréal', className='hero-subtitle'),
     ], className='hero-header'),
-    
+
     # Main container
     html.Div([
 
         # 1. World Immigration Origins
         html.Div([
             html.H2('Immigration à Montreal', className='section-title'),
-            
+
             html.H3('Répartition des immigrants en ville'),
             html.P(
                 """Le Québec compte environ 1,1 million de personnes immigrantes, dont plus de 500 000 vivent sur l’île de Montréal. 
@@ -95,9 +92,9 @@ app.layout = html.Div([
                 l’île de Montréal, avec des zones de forte concentration comme Côte-des-Neiges, Saint-Laurent ou Parc-Extension.
                 Elle permet de visualiser les contrastes territoriaux et de mieux comprendre la géographie sociale de l’immigration sur l’île."""),
             html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe'),
-            
+
             html.Hr(className='section-divider'),
-            
+
             html.H3('Pays d\'origine'),
             html.P(
                 """Cette visualisation met en relation les arrondissements de Montréal avec les principaux pays d’origine de 
@@ -105,7 +102,7 @@ app.layout = html.Div([
                 chaque secteur de la ville, en offrant une lecture croisée entre territoire local et provenance mondiale."""),
             html.H4('Cliquez sur un arrondissement !'),
             html.P(id='current-borough', children='Ville de Montréal'),
-            
+
             html.Div(className='flex-row', children=[
                 html.Div(className='four columns', children=[ # Montreal Map
                     dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
@@ -130,9 +127,9 @@ app.layout = html.Div([
                 "Source : Statistique Canada, Recensement de 2021 – Langue parlée à la maison (tableau 98-10-0235-01).",
                 style={"fontSize": "0.8em", "color": "#6c757d", "marginTop": "10px"}),
             html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe'),
-            
+
             html.Hr(className='section-divider'),
-            
+
             html.P('Comparaison des votes par groupe linguistique aux élections québécoises de 2022'),
             dcc.Dropdown(
                 id='language-dropdown',
@@ -141,7 +138,6 @@ app.layout = html.Div([
                 className='custom-dropdown'),
             dcc.Graph(id='connected-dot-plot', className='graph'),
         ], className='card', style={"overflow": "hidden"}),
-        
 
         # 4. Electoral Representation
         html.Div([
@@ -289,7 +285,7 @@ app.layout = html.Div([
         html.A("Privacy Policy", href="#"),
         html.A("Terms of Service", href="#")
     ], className="page-footer"),
-    
+
 ], className='body-wrapper')  # outermost container
 
 # ---------- Callbacks ----------
@@ -315,7 +311,6 @@ def update_world_immigrants_map(clickdata):
 def update_language_dot_plot(lang_option):
     fig = create_interactive_connected_dot_plot(demographics_data, election_data, lang_option)
     return fig
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
