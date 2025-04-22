@@ -172,7 +172,7 @@ app.layout = html.Div([
                         une faible présence de la CAQ. Cette tendance s’explique en partie par un électorat urbain 
                         plus progressiste, jeune et fortement marqué par l’immigration et la diversité culturelle, 
                         des facteurs qui influencent significativement les choix électoraux (élections 2022)."""),
-                    dcc.Graph(figure=fig_montreal, className='graph')
+                    dcc.Graph(figure=fig_montreal, className='graph', id='waffle_montreal')
                 ], className='card flex-child'),
 
 

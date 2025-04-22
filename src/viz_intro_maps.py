@@ -1,7 +1,4 @@
-import os
-import os.path as osp
 import numpy as np
-from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 
 from src.maps import get_map, get_countries_of_origin
