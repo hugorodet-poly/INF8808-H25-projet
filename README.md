@@ -1,4 +1,14 @@
-# INF8808-H25-projet
+# INF8808-H25-projet: Tableau de Bord Démographique et Électoral de Montréal
+
+## Présentation
+
+Cette application web interactive analyse la relation entre les modèles d'immigration, la diversité linguistique et le comportement électoral à Montréal et au Québec. Le tableau de bord visualise les données démographiques et les tendances de vote pour explorer comment la diversité culturelle influence la représentation politique.
+
+## Architecture Technique
+
+- **Framework**: Construit avec Dash (framework d'application web Python)
+- **Traitement des données**: Pipeline de traitement en Python avec pandas, geopandas
+- **Visualisations**: Plotly, Mapbox pour les cartes interactives
 
 ## Installation des dépendances
 
@@ -6,6 +16,36 @@ Avant d'exécuter les scripts, assurez-vous d'installer les dépendances nécess
 ```bash
 pip install -r requirements.txt
 ```
+
+Pour lancer l'application :
+```bash
+python app.py
+```
+Puis ouvrez votre navigateur à l'adresse http://127.0.0.1:8050/
+
+## Structure et Fonctionnalités du Tableau de Bord
+
+### 1. Immigration à Montréal
+- **Carte interactive**: Affiche la répartition des immigrants par circonscription électorale
+- **Pays d'origine**: Visualisation interactive montrant les liens entre les arrondissements de Montréal et les pays d'origine des immigrants
+  - **Interaction**: Cliquez sur n'importe quel arrondissement pour voir les principaux pays d'origine
+
+### 2. Répartition des langues
+- **Carte linguistique**: Montre la distribution des personnes ne parlant ni français ni anglais à la maison
+- **Graphique à points connectés**: Compare les tendances de vote entre les groupes linguistiques
+  - **Interaction**: Utilisez le menu déroulant pour sélectionner différentes variables linguistiques
+
+### 3. Analyse de la représentation électorale
+- **Graphiques en gaufre**: Représentation visuelle de la distribution des sièges à l'Assemblée nationale
+  - Représentation à l'échelle du Québec
+  - Représentation spécifique à Montréal
+  - Visualisation d'un scénario hypothétique
+- **Immigration et participation électorale**: Analyse des tendances de vote dans les zones à différents niveaux d'immigration
+- **Relation revenu-vote**:
+  - **Interaction**: Sélectionnez différents partis politiques pour voir la corrélation avec les niveaux de revenu
+
+### 4. Comportements de vote selon le taux d'immigration
+- **Graphiques à barres empilées**: Comparent les préférences électorales dans les circonscriptions à fort vs faible taux d'immigration
 
 ## Cartes
 
@@ -43,4 +83,3 @@ Ordre d'exécution des scripts :
 ### Téléchargement des donnés démographiques par circonscription :
 
 `src/dataFetcher/data-fetcher-donneesSocio.py` - Extrait les données démographiques par circonscription électorale.
-   
