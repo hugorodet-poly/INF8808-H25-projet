@@ -106,13 +106,10 @@ def group_elections_data_as_party(df, circonscription=None, party='Q.S.'):
     return the vote rate of a specific party in a specific circonscription
     """
     
-    # Filtrer le DataFrame pour ne garder que les votes du parti choisi
     df_filtered = df[df['abreviationPartiPolitique'] == party]
     
-    # Grouper par circonscription et récupérer le taux de vote
     df_grouped = df_filtered.groupby('nomCirconscription', as_index=False)['tauxVote'].sum()
 
-    # Si une circonscription spécifique est demandée, on la filtre
     if circonscription:
         df_grouped = df_grouped[df_grouped['nomCirconscription'] == circonscription]
 

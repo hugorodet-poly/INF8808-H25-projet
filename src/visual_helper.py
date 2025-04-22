@@ -52,7 +52,6 @@ def set_customdata_montreal(z, customdata, m, n, political_parties):
     PQ_list = df.iloc[2]
     QS_list = df.iloc[3]
 
-    # Accès via .iloc pour les éléments à la position 1
     temp_CAQ = CAQ_list.iloc[1]
     temp_PLQ = PLQ_list.iloc[1]
     temp_PQ = PQ_list.iloc[1]

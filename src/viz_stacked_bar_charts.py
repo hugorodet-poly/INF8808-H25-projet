@@ -260,11 +260,6 @@ def stacked_bar_chart_least(df1, df):
 def linguistic_map(df, map_data):
     """df = demographics data, map_data for districts"""
 
-    # mask = get_subset_mask(df['Circonscription'], circo_subsets['Montréal'])
-    # color = df['Immigrants'].values
-    # color[~mask] = None
-
-    # Code above doesn't work outside of notebook for some reason
     district_mapping = {row['Circonscription']: i for i, row in df.iterrows()}
     color = [None] * len(map_data['features'])
 
@@ -277,7 +272,6 @@ def linguistic_map(df, map_data):
 
     fig = get_map(map_data, color, zoom='montreal')
     fig.update_layout(
-        #title_text="Proportion de personnes parlant ni le français ni l'anglais dans les circonscriptions de Montréal",
         title_x=0,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
@@ -291,11 +285,6 @@ def linguistic_map(df, map_data):
 def immigrants_map(df, map_data):
     """df = demographics data, map_data for districts"""
 
-    # mask = get_subset_mask(df['Circonscription'], circo_subsets['Montréal'])
-    # color = df['Immigrants'].values
-    # color[~mask] = None
-
-    # Code above doesn't work outside of notebook for some reason
     district_mapping = {row['Circonscription']: i for i, row in df.iterrows()}
     color = [None] * len(map_data['features'])
 
@@ -308,7 +297,6 @@ def immigrants_map(df, map_data):
 
     fig = get_map(map_data, color, zoom='montreal')
     fig.update_layout(
-        #title_text='Population immigrante des circonscriptions de Montréal',
         title_x=0,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
