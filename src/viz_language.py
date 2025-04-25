@@ -204,4 +204,9 @@ def create_interactive_connected_dot_plot(df_demo, df_elec, lang_option):
             )
         ]
     )
+    fig.update_layout(
+        title='Comparaison des votes par groupe linguistique aux élections québécoises de 2022',
+        title_x=0.5,
+        margin=dict(t=100)
+    )
     return fig

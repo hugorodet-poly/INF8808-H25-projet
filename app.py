@@ -114,7 +114,7 @@ app.layout = html.Div([
 
         # 3. Language Distribution (Montreal)
         html.Div([
-            html.H2('Répartition des langues à Montréal', className='section-title'),
+            html.H2('Répartition des langues à Montréal selon les districtes en fonctionne des gens qui ne parlent ni le français ni l’anglais à la maison', className='section-title'),
             html.P(
                 """Cette carte montre la répartition des personnes vivant sur l’île de Montréal qui ne parlent ni le français 
                 ni l’anglais à la maison. Bien que leur proportion demeure faible dans l’ensemble, certaines circonscriptions 
