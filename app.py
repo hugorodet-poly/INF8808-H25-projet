@@ -5,13 +5,13 @@ from dash.dependencies import Input, Output
 # Import your custom modules
 from src.maps import get_districts_mapdata, get_boroughs_mapdata, get_countries_mapdata
 from src.preprocess import get_demographics_data, get_elections_data, get_boroughs_data
-from src.viz_guillaume import stacked_bar_chart_most, stacked_bar_chart_least, immigrants_map, linguistic_map
-from src.viz_hugo import get_montreal_boroughs_map, get_world_immigrants_map
-from src.viz_nathan import create_interactive_connected_dot_plot, get_language_dropdown_options
+from src.viz_stacked_bar_charts import stacked_bar_chart_most, stacked_bar_chart_least, immigrants_map, linguistic_map
+from src.viz_intro_maps import get_montreal_boroughs_map, get_world_immigrants_map
+from src.viz_language import create_interactive_connected_dot_plot, get_language_dropdown_options
 
 # Import Sidney's visualizations
-from src.viz_sid import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
-from src.viz_sid import get_immigrant_voting_scatter, get_party_income_relation
+from src.viz_waffles_charts import get_quebec_waffle_chart, get_montreal_waffle_chart, get_hypothetical_waffle_chart, get_upper_median_immigration_waffle, get_lower_median_immigration_waffle
+from src.viz_waffles_charts import get_immigrant_voting_scatter, get_party_income_relation
 
 # ---------- Data Loading -------------
 demographics_data = get_demographics_data()
@@ -172,7 +172,7 @@ app.layout = html.Div([
                         une faible présence de la CAQ. Cette tendance s’explique en partie par un électorat urbain 
                         plus progressiste, jeune et fortement marqué par l’immigration et la diversité culturelle, 
                         des facteurs qui influencent significativement les choix électoraux (élections 2022)."""),
-                    dcc.Graph(figure=fig_montreal, className='graph')
+                    dcc.Graph(figure=fig_montreal, className='graph', id='waffle_montreal')
                 ], className='card flex-child'),
 
 

@@ -77,8 +77,8 @@ def get_quebec_waffle_chart():
 
 def get_montreal_waffle_chart():
     """Create a waffle chart for Montreal's National Assembly seats"""
-    m = 3  # Augmentation du nombre de lignes
-    n = 9  # Augmentation du nombre de colonnes
+    m = 3 
+    n = 9  
     z = np.ones((m, n))
 
     z[0:, 0:5] = 2
@@ -94,14 +94,13 @@ def get_montreal_waffle_chart():
     customdata = set_customdata_montreal(z, customdata, m, n, political_parties)
 
     # Définition de la palette de couleurs
-    colorscale = [[0, "#1E90FF"], #1E90FF
-                [0.33, "#00cc96"], #00cc96
-                [0.33, "#b52121"], #b52121
-                [0.66,  "#FF8040"], #FF8040
+    colorscale = [[0, "#1E90FF"], 
+                [0.33, "#00cc96"], 
+                [0.33, "#b52121"], 
+                [0.66,  "#FF8040"],
                 [0.66, "#FF8040"],
-                [1,"#004A9A"]] #004A9A
+                [1,"#004A9A"]] 
 
-    # # Ajustement des étiquettes
 
     fig = go.Figure(go.Heatmap(z=z,
                             customdata=customdata, xgap=3, ygap=3,
@@ -175,10 +174,10 @@ def get_hypothetical_waffle_chart():
     return fig
 
 def get_upper_median_immigration_waffle():
-    m = 4  # Augmentation du nombre de lignes
-    n = 16  # Augmentation du nombre de colonnes
+    m = 4  
+    n = 16  
     z = np.ones((m, n))
-
+    # Sets values for waffle chart
     z[0:4, 0:5] = 2
     z[2, 5] = 2
     z[3, 5] = 2
@@ -196,10 +195,10 @@ def get_upper_median_immigration_waffle():
     customdata = set_customdata(z, customdata, m, n, political_parties)
 
     colorscale = [
-        [0.0, "#FFFFFF"],   # blanc
-        [0.33, "#1E90FF"],  # bleu
+        [0.0, "#FFFFFF"],   # white
+        [0.33, "#1E90FF"],  # blue
         [0.66, "#b52121"],  # orange
-        [1.0, "#FF8040"]    # rouge
+        [1.0, "#FF8040"]    # red
     ]
 
     fig = go.Figure(go.Heatmap(z=z,  zmin=0, zmax=3,
@@ -219,8 +218,8 @@ def get_upper_median_immigration_waffle():
     return fig
 
 def get_lower_median_immigration_waffle():
-    m = 4  # Augmentation du nombre de lignes
-    n = 16  # Augmentation du nombre de colonnes
+    m = 4  
+    n = 16 
     z = np.ones((m, n))
 
     z[3, 0:3] = 4
@@ -231,13 +230,13 @@ def get_lower_median_immigration_waffle():
 
     customdata = set_customdata(z, customdata, m, n, political_parties)
 
-    # Définition de la palette de couleurs
-    colorscale = [[0, "#FFFFFF"], #1E90FF
-                [0.33, "#1E90FF"], #00cc96
-                [0.33, "#b52121"], #b52121
-                [0.66,  "#FF8040"], #FF8040
+    # colors
+    colorscale = [[0, "#FFFFFF"], 
+                [0.33, "#1E90FF"],
+                [0.33, "#b52121"], 
+                [0.66,  "#FF8040"], 
                 [0.66, "#FF8040"],
-                [1,"#004A9A"]] #004A9A
+                [1,"#004A9A"]] 
 
     fig = go.Figure(go.Heatmap(z=z,
                             customdata=customdata, xgap=3, ygap=3,
@@ -256,32 +255,9 @@ def get_lower_median_immigration_waffle():
 
     return fig
 
-def get_median_data(df_demographics, df_election):
-    total_cir = 125
-    immigration_rate = df_demographics[['Circonscription', 'Immigrants']]
-    df_election = get_elections_data_by_winning_party(df_election)
-
-    df_election.rename(columns={'nomCirconscription': 'Circonscription'}, inplace=True)
-    df_election = df_election.merge(right=immigration_rate, how='inner', on='Circonscription')
-    df_election.head(10)
-
-    df_election.sort_values(by=["Immigrants"], ascending=False, inplace=True)
-
-    df_higher_immigration = df_election.head(total_cir//2)
-    df_lower_immigration = df_election.tail(total_cir//2)
-    print(len(df_higher_immigration))
-    print(len(df_lower_immigration))
-
-
-    seats_higher = df_higher_immigration.groupby('abreviationPartiPolitique')['Circonscription'].count().reset_index()
-    seats_higher.rename(columns={'Circonscription': 'Seats'}, inplace=True)
-    seats_higher.sort_values(by=['Seats'], ascending=False, inplace=True)
-    seats_lower = df_lower_immigration.groupby('abreviationPartiPolitique')['Circonscription'].count().reset_index()
-    seats_lower.rename(columns={'Circonscription': 'Seats'}, inplace=True)
-    seats_lower.sort_values(by=['Seats'], ascending=False, inplace=True)
-    return seats_higher, seats_lower
-
 ################## end of Waffle charts ##################
+################# start of scatter charts ##################
+
 def get_immigrant_voting_scatter(df_demographics, df_election):
     """Create a scatter plot showing relationship between immigration percentage and voter participation"""
     immigration_rate = df_demographics[['Circonscription', 'Immigrants']]

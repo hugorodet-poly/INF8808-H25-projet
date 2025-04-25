@@ -4,7 +4,7 @@ from unidecode import unidecode
 import json
 import numpy as np
 
-# Noms des circonscriptions considérées appartenant à chaque ville
+
 circo_subsets = {
     'Montréal': [
         'Acadie',
@@ -264,20 +264,6 @@ def get_countries_of_origin(
             idx = formatted_columns.index(country_name)
             color.append(df.iloc[0, idx])
             country_names.append(country_name)
-            
-        # Elif the continent is in the dataframe, use the listed value for "Autres lieux de naissance..."
-        # There are issue with how we SHOULD represent this data, so for now it's not used
-        # elif feature['properties']['continent'] in ['South America', 'North America']:
-        #     color.append(df.iloc[0, indices['Americas']['other']])
-        # elif feature['properties']['continent'] in ['Europe']:
-        #     color.append(df.iloc[0, indices['Europe']['other']])
-        # elif feature['properties']['continent'] in ['Africa']:
-        #     color.append(df.iloc[0, indices['Africa']['other']])
-        # elif feature['properties']['continent'] in ['Asia']:
-        #     color.append(df.iloc[0, indices['Asia']['other']])
-        # elif feature['properties']['continent'] in ['Oceania']:
-        #     color.append(df.iloc[0, indices['Oceania']['other']])
-
         # Else we don't plot the country (e.g. for Antarctica)
         else:
             color.append(0)
