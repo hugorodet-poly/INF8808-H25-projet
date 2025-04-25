@@ -133,7 +133,17 @@ app.layout = html.Div([
 
             html.Hr(className='section-divider'),
 
-            html.P('Comparaison des votes par groupe linguistique aux élections québécoises de 2022'),
+            html.H2('Langue et vote au Québec : un lien marqué', className='section-title'),
+            html.P(
+                """Le Québec est une terre d’immigration où se côtoient une grande variété de langues et de cultures.
+                Cette diversité se reflète aussi dans les urnes."""),
+            html.P(
+                """Ce graphique illustre les écarts de vote selon la majorité linguistique des circonscriptions.
+                Là où les francophones sont majoritaires, ce sont la CAQ et le Parti Québécois qui dominent. Dans les circonscriptions
+                anglophones et allophones, c’est le Parti libéral qui l’emporte largement. Québec solidaire, de son côté, tire sa force
+                des zones allophones ou linguistiquement mixtes, où aucun groupe linguistique ne prévaut."""),
+            html.P(
+                """Fait notable : le soutien au Parti conservateur reste relativement stable, peu importe la composition linguistique des circonscriptions."""),
             dcc.Dropdown(
                 id='language-dropdown',
                 options=language_dropdown_options,

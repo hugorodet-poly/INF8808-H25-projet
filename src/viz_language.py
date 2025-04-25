@@ -58,8 +58,12 @@ def prepare_dataframes(df_demo, df_elec):
         'Ni francophones ni anglophones': districts_neither
     }
 
+    # Rename parties ('C.A.Q.-E.F.L.' to 'C.A.Q.', 'P.C.Q-E.E.D.' to 'P.C.Q.', 'P.L.Q./Q.L.P.' to 'P.L.Q.')
+    rename_dict = {'C.A.Q.-E.F.L.': 'C.A.Q.', 'P.C.Q-E.E.D.': 'P.C.Q.', 'P.L.Q./Q.L.P.': 'P.L.Q.'}
+    df_elec['abreviationPartiPolitique'] = df_elec['abreviationPartiPolitique'].replace(rename_dict)
+
     # Filter and sort the elections data for the selected districts and parties
-    parties = ['C.A.Q.-E.F.L.', 'P.C.Q-E.E.D.', 'P.L.Q./Q.L.P.', 'P.Q.', 'Q.S.']
+    parties = ['C.A.Q.', 'P.C.Q.', 'P.L.Q.', 'P.Q.', 'Q.S.']
     df_elec_fr = df_elec[(df_elec['nomCirconscription'].isin(districts_fr)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
     df_elec_fr = df_elec_fr.sort_values(['nomCirconscription', 'numeroPartiPolitique'])
     df_elec_en = df_elec[(df_elec['nomCirconscription'].isin(districts_en)) & (df_elec['abreviationPartiPolitique'].isin(parties))]
