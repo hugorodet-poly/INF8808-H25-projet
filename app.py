@@ -91,6 +91,7 @@ app.layout = html.Div([
                 """La carte ci-dessous montre la répartition des immigrants selon les circonscriptions électorales de 
                 l’île de Montréal, avec des zones de forte concentration comme Côte-des-Neiges, Saint-Laurent ou Parc-Extension.
                 Elle permet de visualiser les contrastes territoriaux et de mieux comprendre la géographie sociale de l’immigration sur l’île."""),
+            html.H2("Carte de la proportion d'immigrants à Montréal", style={'marginTop': '20px', 'textAlign': 'center'}),
             html.Iframe(src="/assets/immigration_map.html", width="100%", height="600", className='iframe'),
 
             html.Hr(className='section-divider'),
@@ -103,6 +104,7 @@ app.layout = html.Div([
             html.H4('Cliquez sur un arrondissement !'),
             html.P(id='current-borough', children='Ville de Montréal'),
 
+            html.H2("Carte des principaux pays d'origine des immigrants des arrondissements de Montréal", style={'marginTop': '20px', 'textAlign': 'center'}),
             html.Div(className='flex-row', children=[
                 html.Div(className='four columns', children=[ # Montreal Map
                     dcc.Graph(id='montreal-immigrants-map', figure=montreal_boroughs_map, style={'justify': 'center'})]),
@@ -126,6 +128,7 @@ app.layout = html.Div([
             html.P(
                 "Source : Statistique Canada, Recensement de 2021 – Langue parlée à la maison (tableau 98-10-0235-01).",
                 style={"fontSize": "0.8em", "color": "#6c757d", "marginTop": "10px"}),
+            html.H2("Carte de la proportion des personnes qui ne parlent ni le français ni l'anglais à Montréal", style={'marginTop': '20px', 'textAlign': 'center'}),
             html.Iframe(src="/assets/linguistic_map.html", width="100%", height="600", className='iframe'),
 
             html.Hr(className='section-divider'),
