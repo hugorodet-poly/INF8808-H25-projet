@@ -13,6 +13,10 @@ def stacked_bar_chart_most(df1, df):
     y_data = df1.nlargest(10, 'Immigrants').set_index('Circonscription')['Immigrants'].keys().tolist()
     y_data.reverse()
 
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('C.A.Q.-E.F.L.', 'C.A.Q.')
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('P.C.Q-E.E.D.', 'P.C.Q.')
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('P.L.Q./Q.L.P.', 'P.L.Q.')
+
     top_labels = df['abreviationPartiPolitique'].value_counts().nlargest(5).keys().tolist()
     top_labels.append('Others')
 
@@ -139,6 +143,9 @@ def stacked_bar_chart_least(df1, df):
     y_data = df1.nsmallest(10, 'Immigrants').set_index('Circonscription')['Immigrants'].keys().tolist()
     y_data.reverse()
 
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('C.A.Q.-E.F.L.', 'C.A.Q.')
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('P.C.Q-E.E.D.', 'P.C.Q.')
+    df['abreviationPartiPolitique'] = df['abreviationPartiPolitique'].replace('P.L.Q./Q.L.P.', 'P.L.Q.')
 
     top_labels = df['abreviationPartiPolitique'].value_counts().nlargest(5).keys().tolist()
     top_labels.append('Others')
