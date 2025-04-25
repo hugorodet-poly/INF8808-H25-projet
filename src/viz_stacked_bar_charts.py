@@ -279,9 +279,10 @@ def linguistic_map(df, map_data):
 
     fig = get_map(map_data, color, zoom='montreal')
     fig.update_layout(
-        title_x=0,
+        # title_x=0,
         title_yanchor='top',
         title_font=dict(size=21, weight='bold'),
+        # title=''
         height=600,
         width=1340,
         margin=dict(t=0, b=10, l=0, r=0),)
@@ -306,9 +307,11 @@ def immigrants_map(df, map_data):
     fig.update_layout(
         title_x=0,
         title_yanchor='top',
+        title='Répartition des immigrants selon les circonscriptions électorales de l’île de Montréal',
         title_font=dict(size=21, weight='bold'),
         height=600,
         width=1340,
         margin=dict(t=0, b=10, l=0, r=0),)
     fig.data[0].colorbar = dict(ticksuffix="%")
+    
     return fig
