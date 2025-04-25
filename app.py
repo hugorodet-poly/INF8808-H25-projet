@@ -55,8 +55,6 @@ app.layout = html.Div([
 
             # Right side: Any extra nav links or placeholders
             html.Div([
-                html.A("Home", href="#", className="nav-link"),
-                html.A("Contact", href="#", className="nav-link")
             ], className="nav-right")
         ], className="navbar-container")
     ], className="navbar"),
